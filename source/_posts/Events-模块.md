@@ -60,7 +60,7 @@ const count2 = life.listeners('comfort').length;
 #### 设置事件监听数的最大值
 
 ```js
-life.setMaxListeners('comfort');
+life.setMaxListeners('12');
 ```
 
 
