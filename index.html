@@ -181,7 +181,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-03 17:15:27 / 修改时间：17:52:25" itemprop="dateCreated datePublished" datetime="2020-09-03T17:15:27+08:00">2020-09-03</time>
+              <time title="创建时间：2020-09-03 17:15:27 / 修改时间：19:54:45" itemprop="dateCreated datePublished" datetime="2020-09-03T17:15:27+08:00">2020-09-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,28 +206,32 @@
       
           <p>Python的循环有两种，一种是for…in循环，另一种是while 循环。</p>
 <h2 id="for…in-循环"><a href="#for…in-循环" class="headerlink" title="for…in 循环"></a>for…in 循环</h2><p>迭代字符串</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> <span class="string">'Python'</span>:</span><br><span class="line">	print(<span class="string">'当前字母 :'</span>, letter)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> <span class="string">'Python'</span>:</span><br><span class="line">  print(<span class="string">'当前字母 :'</span>, letter)</span><br></pre></td></tr></table></figure>
 
 <p>迭代列表</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fruits = [<span class="string">'banana'</span>, <span class="string">'apple'</span>,  <span class="string">'mango'</span>]</span><br><span class="line"><span class="keyword">for</span> fruit <span class="keyword">in</span> fruits:</span><br><span class="line">	print(<span class="string">'当前水果 :'</span>, fruit)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fruits = [<span class="string">'banana'</span>, <span class="string">'apple'</span>,  <span class="string">'mango'</span>]</span><br><span class="line"><span class="keyword">for</span> fruit <span class="keyword">in</span> fruits:</span><br><span class="line">  print(<span class="string">'当前水果 :'</span>, fruit)</span><br></pre></td></tr></table></figure>
 
 <p>通过序列索引迭代</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range(len(fruits)):</span><br><span class="line">	print(<span class="string">'当前水果 :'</span>, fruits[index])</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range(len(fruits)):</span><br><span class="line">  print(<span class="string">'当前水果 :'</span>, fruits[index])</span><br></pre></td></tr></table></figure>
 
 <h2 id="while-循环"><a href="#while-循环" class="headerlink" title="while 循环"></a>while 循环</h2><p>第二种循环是while循环，只要条件满足，就不断循环，条件不满足时退出循环。</p>
 <p>例如：打印出 2 - 100 之间所有的素数（质数）</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span>(i &lt; <span class="number">100</span>): <span class="comment"># 迭代 2 - 100 之间的整数</span></span><br><span class="line">	j = <span class="number">2</span></span><br><span class="line">	<span class="keyword">while</span>(j &lt;= (i/j)): <span class="comment"># 内层循环：寻找 i 的因数，因数最大只需要迭代到  i 的平方根，如：16 只需要迭代到 4，13 只需要迭代到 3 </span></span><br><span class="line">		<span class="keyword">if</span> <span class="keyword">not</span>(i%j): <span class="keyword">break</span> <span class="comment"># 找到一个因数，即 i 能被 j 整除，立即跳出循环</span></span><br><span class="line">		j = j + <span class="number">1</span></span><br><span class="line">	<span class="keyword">if</span> (j &gt; i/j) : print(i, <span class="string">" 是素数"</span>) <span class="comment"># 如果 j &gt; i/j，说明内层循环没有找到 i 的因数，那么 i 就是素数。</span></span><br><span class="line">	i = i + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span>(i &lt; <span class="number">100</span>): <span class="comment"># 迭代 2 - 100 之间的整数</span></span><br><span class="line">  j = <span class="number">2</span></span><br><span class="line">  <span class="keyword">while</span>(j &lt;= (i/j)): <span class="comment"># 内层循环：寻找 i 的因数，因数最大只需要迭代到  i 的平方根，如：16 只需要迭代到 4，13 只需要迭代到 3 </span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span>(i%j): <span class="keyword">break</span> <span class="comment"># 找到一个因数，即 i 能被 j 整除，立即跳出循环</span></span><br><span class="line">    j = j + <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (j &gt; i/j) : print(i, <span class="string">" 是素数"</span>) <span class="comment"># 如果 j &gt; i/j，说明内层循环没有找到 i 的因数，那么 i 就是素数。</span></span><br><span class="line">  i = i + <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="循环使用-else-语句"><a href="#循环使用-else-语句" class="headerlink" title="循环使用 else 语句"></a>循环使用 else 语句</h2><p>for … else语句：else 中的语句会在循环正常执行完（即 for 不是通过 break 跳出而中断的）的情况下执行，while … else 也是一样。</p>
 <p>例如，判断10-20之间的数是不是质数：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> range(<span class="number">10</span>,<span class="number">20</span>):  <span class="comment"># 迭代 10 到 20 之间的数字</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,num): <span class="comment"># 根据因子迭代</span></span><br><span class="line">		<span class="keyword">if</span> num%i == <span class="number">0</span>:      <span class="comment"># 确定第一个因子</span></span><br><span class="line">			j=num/i          <span class="comment"># 计算第二个因子</span></span><br><span class="line">			print(<span class="string">'%d 等于 %d * %d'</span> % (num,i,j))</span><br><span class="line">			<span class="keyword">break</span>            <span class="comment"># 跳出当前循环</span></span><br><span class="line">	<span class="keyword">else</span>:                  <span class="comment"># 循环的 else 部分</span></span><br><span class="line">		print(num, <span class="string">'是一个质数'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> range(<span class="number">10</span>,<span class="number">20</span>):  <span class="comment"># 迭代 10 到 20 之间的数字</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,num): <span class="comment"># 根据因子迭代</span></span><br><span class="line">    <span class="keyword">if</span> num%i == <span class="number">0</span>:      <span class="comment"># 确定第一个因子</span></span><br><span class="line">      j=num/i          <span class="comment"># 计算第二个因子</span></span><br><span class="line">      print(<span class="string">'%d 等于 %d * %d'</span> % (num,i,j))</span><br><span class="line">      <span class="keyword">break</span>            <span class="comment"># 跳出当前循环</span></span><br><span class="line">  <span class="keyword">else</span>:                  <span class="comment"># 循环的 else 部分</span></span><br><span class="line">    print(num, <span class="string">'是一个质数'</span>)</span><br></pre></td></tr></table></figure>
 
 <h2 id="break语句"><a href="#break语句" class="headerlink" title="break语句"></a>break语句</h2><p>break语句用在while和for循环中，用来终止循环语句，即循环条件没有False条件或者序列还没被完全递归完，也会停止执行循环语句。</p>
 <p>如果您使用嵌套循环，break语句将停止执行最深层的循环</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var = <span class="number">10</span></span><br><span class="line"><span class="keyword">while</span> var &gt; <span class="number">0</span>:              </span><br><span class="line">	print(<span class="string">'当前变量值 :'</span>, var)</span><br><span class="line">	var = var <span class="number">-1</span></span><br><span class="line">	<span class="keyword">if</span> var == <span class="number">5</span>:   <span class="comment"># 当变量 var 等于 5 时退出循环</span></span><br><span class="line">		<span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var = <span class="number">10</span></span><br><span class="line"><span class="keyword">while</span> var &gt; <span class="number">0</span>:              </span><br><span class="line">  print(<span class="string">'当前变量值 :'</span>, var)</span><br><span class="line">  var = var <span class="number">-1</span></span><br><span class="line">  <span class="keyword">if</span> var == <span class="number">5</span>:   <span class="comment"># 当变量 var 等于 5 时退出循环</span></span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="continue语句"><a href="#continue语句" class="headerlink" title="continue语句"></a>continue语句</h2><p>continue语句用在while和for循环中，用来跳出本次循环，然后继续进行下一轮循环，而break跳出整个循环。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="number">10</span></span><br><span class="line"><span class="keyword">while</span> num &gt; <span class="number">0</span>:</span><br><span class="line">	num -= <span class="number">1</span></span><br><span class="line">	<span class="keyword">if</span> (num == <span class="number">5</span>): <span class="keyword">continue</span></span><br><span class="line">	print(<span class="string">'当前变量num值：'</span>, num)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="number">10</span></span><br><span class="line"><span class="keyword">while</span> num &gt; <span class="number">0</span>:</span><br><span class="line">  num -= <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (num == <span class="number">5</span>): <span class="keyword">continue</span></span><br><span class="line">  print(<span class="string">'当前变量num值：'</span>, num)</span><br></pre></td></tr></table></figure>
+
+<h2 id="pass-语句"><a href="#pass-语句" class="headerlink" title="pass 语句"></a>pass 语句</h2><p>pass 是空语句，不做任何事情，一般用做占位语句，是为了保持程序结构的完整性。</p>
+<p>例如，输出 Python 的每个字母：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> <span class="string">'Python'</span>:</span><br><span class="line">  <span class="keyword">if</span> letter == <span class="string">'h'</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'当前字母 :'</span>, letter)</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -272,7 +276,16 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-03 15:11:52 / 修改时间：16:47:44" itemprop="dateCreated datePublished" datetime="2020-09-03T15:11:52+08:00">2020-09-03</time>
+              <time title="创建时间：2020-09-03 15:11:52 / 修改时间：19:35:27" itemprop="dateCreated datePublished" datetime="2020-09-03T15:11:52+08:00">2020-09-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
             </span>
 
           
@@ -325,13 +338,8 @@
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>t = (<span class="number">1</span>,)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>t</span><br><span class="line">(<span class="number">1</span>,)</span><br></pre></td></tr></table></figure>
 
 <h3 id="tuple所谓的“不变”是说，tuple的每个元素的指向永远不变"><a href="#tuple所谓的“不变”是说，tuple的每个元素的指向永远不变" class="headerlink" title="tuple所谓的“不变”是说，tuple的每个元素的指向永远不变"></a>tuple所谓的“不变”是说，tuple的每个元素的指向永远不变</h3><p>来看一个“可变的”tuple：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>t = (‘a’, ‘b’, [‘A’, ‘B’])<br>t[2][0] = ‘X’<br>t[2][1] = ‘Y’<br>t<br>(‘a’, ‘b’, [‘X’, ‘Y’])</p>
-</blockquote>
-</blockquote>
-</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>t = (<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'A'</span>, <span class="string">'B'</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>t[<span class="number">2</span>][<span class="number">0</span>] = <span class="string">'X'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>t[<span class="number">2</span>][<span class="number">1</span>] = <span class="string">'Y'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>t</span><br><span class="line">(<span class="string">'a'</span>, <span class="string">'b'</span>, [<span class="string">'X'</span>, <span class="string">'Y'</span>])</span><br></pre></td></tr></table></figure>
+
 <p>当我们把list的元素’A’和’B’修改为’X’和’Y’后，tuple就变了。所以，tuple所谓的“不变”是说，tuple的每个元素，指向永远不变。即指向’a’，就不能改成指向’b’，指向一个list，就不能改成指向其他对象，但指向的这个list本身是可变的！</p>
 
       
@@ -377,7 +385,16 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-03 09:59:52 / 修改时间：16:48:07" itemprop="dateCreated datePublished" datetime="2020-09-03T09:59:52+08:00">2020-09-03</time>
+              <time title="创建时间：2020-09-03 09:59:52 / 修改时间：19:20:21" itemprop="dateCreated datePublished" datetime="2020-09-03T09:59:52+08:00">2020-09-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
             </span>
 
           
@@ -395,6 +412,20 @@
 <h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>在最新的Python 3版本中，<strong>字符串是以Unicode编码的，支持多语言</strong>，例如：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">'包含中文的str'</span>)</span><br><span class="line">包含中文的str</span><br></pre></td></tr></table></figure>
 
+<h3 id="访问字符串中的值"><a href="#访问字符串中的值" class="headerlink" title="访问字符串中的值"></a>访问字符串中的值</h3><p>通过索引值可以访问子字符串</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>var1 = <span class="string">'Hello World!'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>var2 = <span class="string">"Python Runoob"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(var1[<span class="number">0</span>])</span><br><span class="line">H</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(var2[<span class="number">1</span>:<span class="number">5</span>])</span><br><span class="line">ytho</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h3><p>通过加号可以拼接多个字符串</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>var1 = <span class="string">'Hello World!'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(var1[:<span class="number">6</span>] + <span class="string">'Runoob!'</span>)</span><br><span class="line">Hello Runoob!</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他字符串运算符"><a href="#其他字符串运算符" class="headerlink" title="其他字符串运算符"></a>其他字符串运算符</h3><ul>
+<li>*: 重复输出字符串</li>
+<li>[]: 通过索引获取字符串中字符</li>
+<li>[:]: 截取字符串中的一部分</li>
+<li>in: 成员运算符 - 如果字符串中包含给定的字符返回 True</li>
+<li>not in: 成员运算符 - 如果字符串中不包含给定的字符返回 True</li>
+<li>%: 格式字符串</li>
+</ul>
 <h3 id="单个字符的编解码"><a href="#单个字符的编解码" class="headerlink" title="单个字符的编解码"></a>单个字符的编解码</h3><p>对于单个字符的编码，Python提供了ord()函数获取字符的整数表示，chr()函数把编码转换为对应的字符：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>ord(<span class="string">'A'</span>)</span><br><span class="line"><span class="number">65</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ord(<span class="string">'中'</span>)</span><br><span class="line"><span class="number">20013</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>chr(<span class="number">66</span>)</span><br><span class="line"><span class="string">'B'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>chr(<span class="number">25991</span>)</span><br><span class="line"><span class="string">'文'</span></span><br></pre></td></tr></table></figure>
 
@@ -504,6 +535,15 @@
 
               <time title="创建时间：2020-09-03 09:38:37 / 修改时间：09:39:40" itemprop="dateCreated datePublished" datetime="2020-09-03T09:38:37+08:00">2020-09-03</time>
             </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+            </span>
 
           
 
@@ -612,6 +652,15 @@
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-09-03 09:33:20" itemprop="dateModified" datetime="2020-09-03T09:33:20+08:00">2020-09-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index"><span itemprop="name">ES6</span></a>
+                </span>
+            </span>
 
           
 
@@ -686,6 +735,15 @@
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-09-03 09:33:20" itemprop="dateModified" datetime="2020-09-03T09:33:20+08:00">2020-09-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index"><span itemprop="name">ES6</span></a>
+                </span>
+            </span>
 
           
 
@@ -793,6 +851,15 @@ func() <span class="comment">// 不报错</span></code></pre>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-09-03 09:33:20" itemprop="dateModified" datetime="2020-09-03T09:33:20+08:00">2020-09-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index"><span itemprop="name">ES6</span></a>
+                </span>
+            </span>
 
           
 
@@ -946,6 +1013,15 @@ func() <span class="comment">// 不报错</span></code></pre>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-09-03 09:33:20" itemprop="dateModified" datetime="2020-09-03T09:33:20+08:00">2020-09-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index"><span itemprop="name">ES6</span></a>
+                </span>
+            </span>
 
           
 
@@ -1057,6 +1133,15 @@ func() <span class="comment">// 不报错</span></code></pre>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-09-03 09:33:20" itemprop="dateModified" datetime="2020-09-03T09:33:20+08:00">2020-09-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
+                </span>
+            </span>
 
           
 
@@ -1136,6 +1221,15 @@ func() <span class="comment">// 不报错</span></code></pre>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-09-03 09:33:20" itemprop="dateModified" datetime="2020-09-03T09:33:20+08:00">2020-09-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
+                </span>
+            </span>
 
           
 
@@ -1309,8 +1403,14 @@ func() <span class="comment">// 不报错</span></code></pre>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
