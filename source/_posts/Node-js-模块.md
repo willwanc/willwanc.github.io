@@ -34,7 +34,7 @@ Node.js 使用 CommonJs 模块规范。CommonJs 规范由JavaScript社区发起�
 
 ## 模块化
 
-1. 创建和定义模块
+### 1. 创建和定义模块
 
 	在 Node.js 中，只需要创建一个js文件就创建了一个模块，通过在 exports 变量上添加属性和方法就可以在向外部暴露想要暴露的数据和方法。
 
@@ -49,7 +49,7 @@ Node.js 使用 CommonJs 模块规范。CommonJs 规范由JavaScript社区发起�
 
    
 
-2. 使用模块
+### 2. 使用模块
 
 	我们可以通过 require 方法来引用一个模块，然后就可以使用这个模块暴露出来的数据和方法。
 
@@ -65,7 +65,7 @@ Node.js 使用 CommonJs 模块规范。CommonJs 规范由JavaScript社区发起�
 
 ## CommonJs 模块机制
 
-- 模块默认导出对象字面量 {}
+### 1. 模块默认导出对象字面量 {}
 
 	```js
 	// utils.js
@@ -80,7 +80,7 @@ Node.js 使用 CommonJs 模块规范。CommonJs 规范由JavaScript社区发起�
    
    
 
-- 修改模块默认导出数据为其他类型
+### 2. 修改模块默认导出数据为其他类型
 
   通过给 module.exports 赋值可以修改模块导出的数据为字符串、函数等其他任何类型。
 
@@ -110,7 +110,7 @@ Node.js 使用 CommonJs 模块规范。CommonJs 规范由JavaScript社区发起�
 
   上述代码说明 module.exports 覆盖了默认的 exports 变量，但是原来默认的 exports 变量在模块内部还存在。
 
-- 模块内部的 exports 变量和模块的使用者 require 的对象是同一个引用
+### 3. 模块内部的 exports 变量和模块的使用者 require 的对象是同一个引用
 
 	例如：
 
