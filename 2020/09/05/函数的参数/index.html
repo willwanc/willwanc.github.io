@@ -28,7 +28,7 @@
 <meta property="og:description" content="Python的函数定义非常简单，但灵活度却非常大。除了正常定义的必选参数外，还可以使用默认参数、可变参数和关键字参数，使得函数定义出来的接口，不但能处理复杂的参数，还可以简化调用者的代码。 位置参数先写一个计算x2的函数： 12def power(x):    return x * x  对于power(x)函数，参数x就是一个位置参数。 当我们调用power函数时，必须传入有且仅有的一个参数x：">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-05T09:17:20.000Z">
-<meta property="article:modified_time" content="2020-09-05T09:18:14.197Z">
+<meta property="article:modified_time" content="2020-09-07T11:20:44.277Z">
 <meta property="article:author" content="Will Wan">
 <meta name="twitter:card" content="summary">
 
@@ -183,10 +183,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-05 17:17:20 / 修改时间：17:18:14" itemprop="dateCreated datePublished" datetime="2020-09-05T17:17:20+08:00">2020-09-05</time>
+              <time title="创建时间：2020-09-05 17:17:20" itemprop="dateCreated datePublished" datetime="2020-09-05T17:17:20+08:00">2020-09-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-07 19:20:44" itemprop="dateModified" datetime="2020-09-07T19:20:44+08:00">2020-09-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -271,9 +277,9 @@
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_end</span><span class="params">(L=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> L <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        L = []</span><br><span class="line">    L.append(<span class="string">'END'</span>)</span><br><span class="line">    <span class="keyword">return</span> L</span><br><span class="line"></span><br><span class="line">现在，无论调用多少次，都不会有问题：</span><br><span class="line"></span><br><span class="line">```py</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>add_end()</span><br><span class="line">[<span class="string">'END'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>add_end()</span><br><span class="line">[<span class="string">'END'</span>]</span><br></pre></td></tr></table></figure>
 
 <p>为什么要设计str、None这样的不变对象呢？</p>
-<p>因为<strong>不变对象一旦创建，对象内部的数据就不能修改，这样就减少了由于修改数据导致的错误</strong>。<strong>此外，由于对象不变，多任务环境下同时读取对象不需要加锁</strong>，同时读一点问题都没有。<br>我们<strong>在编写程序时，如果可以设计一个不变对象，那就尽量设计成不变对象</strong>。</p>
+<p>因为<strong>不变对象一旦创建，对象内部的数据就不能修改，这样就减少了由于修改数据导致的错误。此外，由于对象不变，多任务环境下同时读取对象不需要加锁</strong>，同时读一点问题都没有。<br>我们<strong>在编写程序时，如果可以设计一个不变对象，那就尽量设计成不变对象</strong>。</p>
 <h2 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h2><p>在Python函数中，还可以定义可变参数。顾名思义，可变参数允许你传入0个或任意个参数。这些可变参数在函数调用时自动组装为一个tuple。</p>
-<p>以数学题为例子，给定一组数字a，b，c……，请计算a2 + b2 + c2 + ……。</p>
+<p>以数学题为例子，给定一组数字a，b，c……，请计算a^2 + b^2 + c^2 + ……。</p>
 <p>要定义出这个函数，由于参数个数不确定，我们首先想到可以把a，b，c……作为一个list或tuple传进来，这样，函数可以定义如下：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(numbers)</span>:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</span><br><span class="line">        sum = sum + n * n</span><br><span class="line">    <span class="keyword">return</span> sum</span><br></pre></td></tr></table></figure>
 
@@ -319,13 +325,64 @@
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>extra = &#123;<span class="string">'city'</span>: <span class="string">'Beijing'</span>, <span class="string">'job'</span>: <span class="string">'Engineer'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person(<span class="string">'Jack'</span>, <span class="number">24</span>, **extra)</span><br><span class="line">name: Jack age: <span class="number">24</span> other: &#123;<span class="string">'city'</span>: <span class="string">'Beijing'</span>, <span class="string">'job'</span>: <span class="string">'Engineer'</span>&#125;</span><br></pre></td></tr></table></figure>
 
 <p><code>**extra</code>表示把extra这个dict的所有key-value用关键字参数传入到函数的<code>**kw</code>参数，kw将获得一个dict。</p>
-<h2 id="关键字参数和dict直接作为参数的区别"><a href="#关键字参数和dict直接作为参数的区别" class="headerlink" title="关键字参数和dict直接作为参数的区别"></a>关键字参数和dict直接作为参数的区别</h2><p>我们看一下这个例子：</p>
+<h3 id="关键字参数和dict直接作为参数的区别"><a href="#关键字参数和dict直接作为参数的区别" class="headerlink" title="关键字参数和dict直接作为参数的区别"></a>关键字参数和dict直接作为参数的区别</h3><p>我们看一下这个例子：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">person</span><span class="params">(name, age, **kw)</span>:</span></span><br><span class="line">	kw[<span class="string">'gender'</span>] = <span class="string">'F'</span></span><br><span class="line">	print(<span class="string">'name:'</span>, name, <span class="string">'age:'</span>, age, <span class="string">'other:'</span>, kw)</span><br></pre></td></tr></table></figure>
 
 <p>下面我们调用一下person这个函数：</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>extra = &#123;</span><br><span class="line"><span class="meta">... </span>    <span class="string">'gender'</span>: <span class="string">'M'</span></span><br><span class="line"><span class="meta">... </span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>person(<span class="string">'wan'</span>, <span class="number">18</span>, **extra)</span><br><span class="line">name: wan age: <span class="number">18</span> other: &#123;<span class="string">'gender'</span>: <span class="string">'F'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(extra)</span><br><span class="line">&#123;<span class="string">'gender'</span>: <span class="string">'M'</span>&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在上面的代码里，我们调用person时把extra作为参数传给了person，在person内部修改了kw的gender，然后分别在函数内部打印了kw，调用函数之后又打印了extra。 但是变量extra的gender没有改变。这就说明：<strong>关键字参数是对外部变量的一份拷贝。对关键子参数的改动不会影响函数外的变量。而字典直接作为参数传入函数内部，对参数的改动则会影响函数外的变量</strong></p>
+<p>在上面的代码里，我们调用person时把extra作为参数传给了person，在person内部修改了kw的gender，然后分别在函数内部打印了kw，调用函数之后又打印了extra。 但是变量extra的gender没有改变。这就说明：<strong>关键字参数是对外部变量的一份拷贝。对关键子参数的改动不会影响函数外的变量。而字典直接作为参数传入函数内部，对参数的改动则会影响函数外的变量。</strong></p>
+<h3 id="命名关键字参数"><a href="#命名关键字参数" class="headerlink" title="命名关键字参数"></a>命名关键字参数</h3><p><strong>对于关键字参数，函数的调用者可以传入任意不受限制的关键字参数。如果要限制关键字参数的名字，就可以用命名关键字参数。</strong></p>
+<p>例如，只接收city和job作为关键字参数。这种方式定义的函数如下：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">person</span><span class="params">(name, age, *, city, job)</span>:</span></span><br><span class="line">    print(name, age, city, job)</span><br></pre></td></tr></table></figure>
+
+<p>和关键字参数<code>**kw</code>不同，命名关键字参数需要一个特殊分隔符<em>，</em>后面的参数被视为命名关键字参数。</p>
+<p>调用方式如下：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person(<span class="string">'Jack'</span>, <span class="number">24</span>, city=<span class="string">'Beijing'</span>, job=<span class="string">'Engineer'</span>)</span><br><span class="line">Jack <span class="number">24</span> Beijing Engineer</span><br></pre></td></tr></table></figure>
+
+<p>如果函数定义中已经有了一个可变参数，后面跟着的命名关键字参数就不再需要一个特殊分隔符*了：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">person</span><span class="params">(name, age, *args, city, job)</span>:</span></span><br><span class="line">    print(name, age, args, city, job)</span><br></pre></td></tr></table></figure>
+
+<p>命名关键字参数必须传入参数名，这和位置参数不同。如果没有传入参数名，调用将报错。</p>
+<p>命名关键字参数可以有缺省值（相当于默认参数的默认值），从而简化调用：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">person</span><span class="params">(name, age, *, city=<span class="string">'Beijing'</span>, job)</span>:</span></span><br><span class="line">    print(name, age, city, job)</span><br></pre></td></tr></table></figure>
+
+<p>由于命名关键字参数city具有默认值，调用时，可不传入city参数：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>person(<span class="string">'Jack'</span>, <span class="number">24</span>, job=<span class="string">'Engineer'</span>)</span><br><span class="line">Jack <span class="number">24</span> Beijing Engineer</span><br></pre></td></tr></table></figure>
+
+<h2 id="参数组合"><a href="#参数组合" class="headerlink" title="参数组合"></a>参数组合</h2><p>在Python中定义函数，可以用必选参数、默认参数、可变参数、关键字参数和命名关键字参数，这5种参数都可以组合使用。但是请注意，<strong>参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数和关键字参数。</strong>虽然可以组合多达5种参数，但不要同时使用太多的组合，否则函数接口的可理解性很差。</p>
+<p>比如定义一个函数，包含上述若干种参数：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span><span class="params">(a, b, c=<span class="number">0</span>, *args, **kw)</span>:</span></span><br><span class="line">    print(<span class="string">'a ='</span>, a, <span class="string">'b ='</span>, b, <span class="string">'c ='</span>, c, <span class="string">'args ='</span>, args, <span class="string">'kw ='</span>, kw)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f2</span><span class="params">(a, b, c=<span class="number">0</span>, *, d, **kw)</span>:</span></span><br><span class="line">    print(<span class="string">'a ='</span>, a, <span class="string">'b ='</span>, b, <span class="string">'c ='</span>, c, <span class="string">'d ='</span>, d, <span class="string">'kw ='</span>, kw)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'ok'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在函数调用的时候，Python解释器自动按照参数位置和参数名把对应的参数传进去。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>f1(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">a = <span class="number">1</span> b = <span class="number">2</span> c = <span class="number">0</span> args = () kw = &#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f1(<span class="number">1</span>, <span class="number">2</span>, c=<span class="number">3</span>)</span><br><span class="line">a = <span class="number">1</span> b = <span class="number">2</span> c = <span class="number">3</span> args = () kw = &#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f1(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'a'</span>, <span class="string">'b'</span>)</span><br><span class="line">a = <span class="number">1</span> b = <span class="number">2</span> c = <span class="number">3</span> args = (<span class="string">'a'</span>, <span class="string">'b'</span>) kw = &#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f1(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, x=<span class="number">99</span>)</span><br><span class="line">a = <span class="number">1</span> b = <span class="number">2</span> c = <span class="number">3</span> args = (<span class="string">'a'</span>, <span class="string">'b'</span>) kw = &#123;<span class="string">'x'</span>: <span class="number">99</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f2(<span class="number">1</span>, <span class="number">2</span>, d=<span class="number">99</span>, ext=<span class="literal">None</span>)</span><br><span class="line">a = <span class="number">1</span> b = <span class="number">2</span> c = <span class="number">0</span> d = <span class="number">99</span> kw = &#123;<span class="string">'ext'</span>: <span class="literal">None</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最神奇的是通过一个tuple和dict，你也可以调用上述函数：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>args = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>kw = &#123;<span class="string">'d'</span>: <span class="number">99</span>, <span class="string">'x'</span>: <span class="string">'#'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f1(*args, **kw)</span><br><span class="line">a = <span class="number">1</span> b = <span class="number">2</span> c = <span class="number">3</span> args = (<span class="number">4</span>,) kw = &#123;<span class="string">'d'</span>: <span class="number">99</span>, <span class="string">'x'</span>: <span class="string">'#'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>args = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>kw = &#123;<span class="string">'d'</span>: <span class="number">88</span>, <span class="string">'x'</span>: <span class="string">'#'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f2(*args, **kw)</span><br><span class="line">a = <span class="number">1</span> b = <span class="number">2</span> c = <span class="number">3</span> d = <span class="number">88</span> kw = &#123;<span class="string">'x'</span>: <span class="string">'#'</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的调用结果可以看出：<strong>在给函数传参的时候，<em>args 和 *</em>kw 类似于js的扩展运算。*和</strong>分别会把元组和字典展开**</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Python的函数具有非常灵活的参数形态，既可以实现简单的调用，又可以传入非常复杂的参数。</p>
+<ul>
+<li><p>默认参数一定要用不可变对象，如果是可变对象，程序运行时会有逻辑错误！</p>
+</li>
+<li><p>要注意定义可变参数和关键字参数的语法：</p>
+<p>  *args是可变参数，args接收的是一个tuple；</p>
+<p>  **kw是关键字参数，kw接收的是一个dict。</p>
+</li>
+<li><p>以及调用函数时如何传入可变参数和关键字参数的语法：</p>
+<p>  可变参数既可以直接传入：func(1, 2, 3)，又可以先组装list或tuple，再通过<em>args传入：func(</em>(1, 2, 3))；</p>
+<p>  关键字参数既可以直接传入：func(a=1, b=2)，又可以先组装dict，再通过<strong>kw传入：func(</strong>{‘a’: 1, ‘b’: 2})。</p>
+</li>
+<li><p>使用<em>args和*</em>kw是Python的习惯写法，当然也可以用其他参数名，但最好使用习惯用法。</p>
+</li>
+<li><p>命名的关键字参数是为了限制调用者可以传入的参数名，同时可以提供默认值。</p>
+</li>
+<li><p>定义命名的关键字参数在没有可变参数的情况下不要忘了写分隔符*，否则定义的将是位置参数。</p>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017261630425888" target="_blank" rel="noopener">廖雪峰Python教程——函数的参数</a></li>
+</ul>
 
     </div>
 
@@ -344,7 +401,10 @@
     <a href="/2020/09/05/%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/" rel="prev" title="定义函数">
       <i class="fa fa-chevron-left"></i> 定义函数
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/07/%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0/" rel="next" title="递归函数">
+      递归函数 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -403,7 +463,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#位置参数"><span class="nav-number">1.</span> <span class="nav-text">位置参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认参数"><span class="nav-number">2.</span> <span class="nav-text">默认参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多个默认参数"><span class="nav-number">2.1.</span> <span class="nav-text">多个默认参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认参数必须指向不变对象"><span class="nav-number">2.2.</span> <span class="nav-text">默认参数必须指向不变对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可变参数"><span class="nav-number">3.</span> <span class="nav-text">可变参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可变参数和传入list或tuple的区别"><span class="nav-number">3.1.</span> <span class="nav-text">可变参数和传入list或tuple的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字参数"><span class="nav-number">4.</span> <span class="nav-text">关键字参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字参数和dict直接作为参数的区别"><span class="nav-number">5.</span> <span class="nav-text">关键字参数和dict直接作为参数的区别</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#位置参数"><span class="nav-number">1.</span> <span class="nav-text">位置参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认参数"><span class="nav-number">2.</span> <span class="nav-text">默认参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多个默认参数"><span class="nav-number">2.1.</span> <span class="nav-text">多个默认参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认参数必须指向不变对象"><span class="nav-number">2.2.</span> <span class="nav-text">默认参数必须指向不变对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可变参数"><span class="nav-number">3.</span> <span class="nav-text">可变参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可变参数和传入list或tuple的区别"><span class="nav-number">3.1.</span> <span class="nav-text">可变参数和传入list或tuple的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字参数"><span class="nav-number">4.</span> <span class="nav-text">关键字参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字参数和dict直接作为参数的区别"><span class="nav-number">4.1.</span> <span class="nav-text">关键字参数和dict直接作为参数的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命名关键字参数"><span class="nav-number">4.2.</span> <span class="nav-text">命名关键字参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数组合"><span class="nav-number">5.</span> <span class="nav-text">参数组合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -419,20 +479,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -459,7 +519,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
