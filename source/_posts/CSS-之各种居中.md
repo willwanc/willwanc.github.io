@@ -154,7 +154,7 @@ categories: ['CSS布局', 'CSS']
 
 /* 子元素 */
 .childEle {
-    position: absolate;
+    position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
@@ -171,7 +171,7 @@ categories: ['CSS布局', 'CSS']
 }
 
 .childEle {
-    position: absolate;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
