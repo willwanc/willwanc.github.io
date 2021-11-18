@@ -156,6 +156,318 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/05/%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/05/%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">定义函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-05 11:16:23 / 修改时间：17:35:30" itemprop="dateCreated datePublished" datetime="2020-09-05T11:16:23+08:00">2020-09-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在Python中，定义一个函数要使用def语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用return语句返回。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_abs</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> -x</span><br></pre></td></tr></table></figure>
+
+<p>如果没有return语句，函数执行完毕后也会返回结果，只是结果为None。return None可以简写为return。</p>
+<h2 id="空函数"><a href="#空函数" class="headerlink" title="空函数"></a>空函数</h2><p>如果想定义一个什么事也不做的空函数，可以用pass语句。比如现在还没想好怎么写函数的代码，就可以先放一个pass，让代码能运行起来：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nop</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参数检查"><a href="#参数检查" class="headerlink" title="参数检查"></a>参数检查</h2><p>调用函数时，如果参数个数不对，Python解释器会自动检查出来，并抛出 <code>TypeError</code>:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_abs(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">TypeError: my_abs() takes <span class="number">1</span> positional argument but <span class="number">2</span> were given</span><br></pre></td></tr></table></figure>
+
+<p>但是如果参数类型不对，Python解释器就无法帮我们检查。</p>
+<p>可以修改一下my_abs的定义，对参数类型做检查，只允许整数和浮点数类型的参数。数据类型检查可以用内置函数isinstance()实现：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_abs</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(x, (int, float)):</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'bad operand type'</span>)</span><br><span class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> -x</span><br></pre></td></tr></table></figure>
+
+<p>添加了参数检查后，如果传入错误的参数类型，函数就可以抛出一个错误：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_abs(<span class="string">'a'</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">3</span>, <span class="keyword">in</span> my_abs</span><br><span class="line">TypeError: bad operand type</span><br></pre></td></tr></table></figure>
+
+<h2 id="返回多个值"><a href="#返回多个值" class="headerlink" title="返回多个值"></a>返回多个值</h2><p>Python的函数返回多值其实就是返回一个tuple，但是，在语法上，返回一个tuple可以省略括号，写起来更方便。</p>
+<p>比如在游戏中经常需要从一个点移动到另一个点，给出坐标、位移和角度，就可以计算出新的坐标：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">move</span><span class="params">(x, y, step, angle=<span class="number">0</span>)</span>:</span></span><br><span class="line">    nx = x + step * math.cos(angle)</span><br><span class="line">    ny = y - step * math.sin(angle)</span><br><span class="line">    <span class="keyword">return</span> nx, ny</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们就可以同时获得返回值：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x, y = move(<span class="number">100</span>, <span class="number">100</span>, <span class="number">60</span>, math.pi / <span class="number">6</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(x, y)</span><br><span class="line"><span class="number">151.96152422706632</span> <span class="number">70.0</span></span><br></pre></td></tr></table></figure>
+
+<p>在语法上，多个变量可以同时接收一个tuple，按位置赋给对应的值，类似于js的解构赋值。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li><p>定义函数时，如果有必要，可以先对参数的数据类型做检查；</p>
+</li>
+<li><p>函数执行完毕也没有return语句时，自动return None。</p>
+</li>
+<li><p>函数可以同时返回多个值，但其实就是一个tuple。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/04/%E5%AD%97%E5%85%B8%E5%92%8C%E9%9B%86%E5%90%88/" class="post-title-link" itemprop="url">字典和集合</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 10:04:52 / 修改时间：11:25:32" itemprop="dateCreated datePublished" datetime="2020-09-04T10:04:52+08:00">2020-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="字典（dict）"><a href="#字典（dict）" class="headerlink" title="字典（dict）"></a>字典（dict）</h2><p>python中的字典类型，使用键-值（key-value）存储数据，具有极快的查找速度。和js中的对象一样，在其他语言中也称为map。例如：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="string">'Michael'</span>: <span class="number">95</span>, <span class="string">'Bob'</span>: <span class="number">75</span>, <span class="string">'Tracy'</span>: <span class="number">85</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="string">'Michael'</span>]</span><br><span class="line"><span class="number">95</span></span><br></pre></td></tr></table></figure>
+
+<p>dict可以用在需要高速查找的很多地方，正确使用dict非常重要，需要牢记的第一条就是<strong>dict的key必须是不可变对象</strong>。这是因为dict根据key来计算value的存储位置，这个通过key计算位置的算法称为哈希算法（Hash）。</p>
+<p><strong>在Python中，字符串、整数等都是不可变的</strong>，因此，可以放心地作为key。而list是可变的，就不能作为key。</p>
+<h3 id="和js对象的相同点"><a href="#和js对象的相同点" class="headerlink" title="和js对象的相同点"></a>和js对象的相同点</h3><ul>
+<li>通过键名可以获取和设置键值（如果key不存在会报错）</li>
+<li>通过新的键名可以添加新的属性</li>
+<li>dict内部存放的顺序和key放入的顺序是没有关系的</li>
+</ul>
+<h3 id="和list比较，dict有以下特点："><a href="#和list比较，dict有以下特点：" class="headerlink" title="和list比较，dict有以下特点："></a>和list比较，dict有以下特点：</h3><ul>
+<li>查找和插入的速度极快，不会随着key的增加而变慢；</li>
+<li>需要占用大量的内存，内存浪费多。</li>
+</ul>
+<h3 id="字典的常用方法"><a href="#字典的常用方法" class="headerlink" title="字典的常用方法"></a>字典的常用方法</h3><ul>
+<li>in 运算符：判断 key 是否存在</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'Thomas'</span> <span class="keyword">in</span> d</span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>get() 方法：通过键名获取键值。如果键名不存在，返回 None，同时可以通过第二个参数设置键值。如果键名存在，则不可以通过第二个参数设置键值。</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="string">'Thomas'</span>) <span class="comment"># 返回None的时候Python的交互环境不显示结果。</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="string">'Bob'</span>)</span><br><span class="line"><span class="number">75</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="string">'Bob'</span>, <span class="number">60</span>)</span><br><span class="line"><span class="number">75</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="string">'Thomas'</span>, <span class="number">60</span>)</span><br><span class="line"><span class="number">60</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>pop(key) 方法：删除一个key，对应的value也会从dict中删除。</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.pop(<span class="string">'Bob'</span>)</span><br><span class="line"><span class="number">75</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="string">'Michael'</span>: <span class="number">95</span>, <span class="string">'Tracy'</span>: <span class="number">85</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="集合（set）"><a href="#集合（set）" class="headerlink" title="集合（set）"></a>集合（set）</h2><p>set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key。</p>
+<p>set和dict的唯一区别仅在于没有存储对应的value，但是，set的原理和dict一样，所以，同样不可以放入可变对象，因为无法判断两个可变对象是否相等，也就无法保证set内部“不会有重复元素”。</p>
+<h3 id="创建集合"><a href="#创建集合" class="headerlink" title="创建集合"></a>创建集合</h3><p>创建一个set，需要提供一个list作为输入集合：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s = set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：传入的参数[1, 2, 3]是一个list，而显示的{1, 2, 3}只是告诉你这个set内部有1，2，3这3个元素，<strong>显示的顺序也不表示set是有序的</strong>。</p>
+<p>重复元素在set中自动被过滤：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s = set([<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加和删除元素"><a href="#添加和删除元素" class="headerlink" title="添加和删除元素"></a>添加和删除元素</h3><p>通过<strong>add(key)</strong>方法可以添加元素到set中，可以重复添加，但不会有效果：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.add(<span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.add(<span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过<strong>remove(key)</strong>方法可以删除元素：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.remove(<span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="交集和并集"><a href="#交集和并集" class="headerlink" title="交集和并集"></a>交集和并集</h3><p><strong>set可以看成数学意义上的无序和无重复元素的集合</strong>，因此，两个set可以做数学意义上的交集、并集等操作：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s1 = set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s2 = set([<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s1 &amp; s2</span><br><span class="line">&#123;<span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s1 | s2</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017104324028448" target="_blank" rel="noopener">廖雪峰Python教程——使用dict和set</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/03/%E5%BE%AA%E7%8E%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/03/%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">循环</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-03 17:15:27 / 修改时间：19:54:45" itemprop="dateCreated datePublished" datetime="2020-09-03T17:15:27+08:00">2020-09-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Python的循环有两种，一种是for…in循环，另一种是while 循环。</p>
+<h2 id="for…in-循环"><a href="#for…in-循环" class="headerlink" title="for…in 循环"></a>for…in 循环</h2><p>迭代字符串</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> <span class="string">'Python'</span>:</span><br><span class="line">  print(<span class="string">'当前字母 :'</span>, letter)</span><br></pre></td></tr></table></figure>
+
+<p>迭代列表</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fruits = [<span class="string">'banana'</span>, <span class="string">'apple'</span>,  <span class="string">'mango'</span>]</span><br><span class="line"><span class="keyword">for</span> fruit <span class="keyword">in</span> fruits:</span><br><span class="line">  print(<span class="string">'当前水果 :'</span>, fruit)</span><br></pre></td></tr></table></figure>
+
+<p>通过序列索引迭代</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range(len(fruits)):</span><br><span class="line">  print(<span class="string">'当前水果 :'</span>, fruits[index])</span><br></pre></td></tr></table></figure>
+
+<h2 id="while-循环"><a href="#while-循环" class="headerlink" title="while 循环"></a>while 循环</h2><p>第二种循环是while循环，只要条件满足，就不断循环，条件不满足时退出循环。</p>
+<p>例如：打印出 2 - 100 之间所有的素数（质数）</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span>(i &lt; <span class="number">100</span>): <span class="comment"># 迭代 2 - 100 之间的整数</span></span><br><span class="line">  j = <span class="number">2</span></span><br><span class="line">  <span class="keyword">while</span>(j &lt;= (i/j)): <span class="comment"># 内层循环：寻找 i 的因数，因数最大只需要迭代到  i 的平方根，如：16 只需要迭代到 4，13 只需要迭代到 3 </span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span>(i%j): <span class="keyword">break</span> <span class="comment"># 找到一个因数，即 i 能被 j 整除，立即跳出循环</span></span><br><span class="line">    j = j + <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (j &gt; i/j) : print(i, <span class="string">" 是素数"</span>) <span class="comment"># 如果 j &gt; i/j，说明内层循环没有找到 i 的因数，那么 i 就是素数。</span></span><br><span class="line">  i = i + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="循环使用-else-语句"><a href="#循环使用-else-语句" class="headerlink" title="循环使用 else 语句"></a>循环使用 else 语句</h2><p>for … else语句：else 中的语句会在循环正常执行完（即 for 不是通过 break 跳出而中断的）的情况下执行，while … else 也是一样。</p>
+<p>例如，判断10-20之间的数是不是质数：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> range(<span class="number">10</span>,<span class="number">20</span>):  <span class="comment"># 迭代 10 到 20 之间的数字</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,num): <span class="comment"># 根据因子迭代</span></span><br><span class="line">    <span class="keyword">if</span> num%i == <span class="number">0</span>:      <span class="comment"># 确定第一个因子</span></span><br><span class="line">      j=num/i          <span class="comment"># 计算第二个因子</span></span><br><span class="line">      print(<span class="string">'%d 等于 %d * %d'</span> % (num,i,j))</span><br><span class="line">      <span class="keyword">break</span>            <span class="comment"># 跳出当前循环</span></span><br><span class="line">  <span class="keyword">else</span>:                  <span class="comment"># 循环的 else 部分</span></span><br><span class="line">    print(num, <span class="string">'是一个质数'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="break语句"><a href="#break语句" class="headerlink" title="break语句"></a>break语句</h2><p>break语句用在while和for循环中，用来终止循环语句，即循环条件没有False条件或者序列还没被完全递归完，也会停止执行循环语句。</p>
+<p>如果您使用嵌套循环，break语句将停止执行最深层的循环</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var = <span class="number">10</span></span><br><span class="line"><span class="keyword">while</span> var &gt; <span class="number">0</span>:              </span><br><span class="line">  print(<span class="string">'当前变量值 :'</span>, var)</span><br><span class="line">  var = var <span class="number">-1</span></span><br><span class="line">  <span class="keyword">if</span> var == <span class="number">5</span>:   <span class="comment"># 当变量 var 等于 5 时退出循环</span></span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="continue语句"><a href="#continue语句" class="headerlink" title="continue语句"></a>continue语句</h2><p>continue语句用在while和for循环中，用来跳出本次循环，然后继续进行下一轮循环，而break跳出整个循环。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="number">10</span></span><br><span class="line"><span class="keyword">while</span> num &gt; <span class="number">0</span>:</span><br><span class="line">  num -= <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (num == <span class="number">5</span>): <span class="keyword">continue</span></span><br><span class="line">  print(<span class="string">'当前变量num值：'</span>, num)</span><br></pre></td></tr></table></figure>
+
+<h2 id="pass-语句"><a href="#pass-语句" class="headerlink" title="pass 语句"></a>pass 语句</h2><p>pass 是空语句，不做任何事情，一般用做占位语句，是为了保持程序结构的完整性。</p>
+<p>例如，输出 Python 的每个字母：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> <span class="string">'Python'</span>:</span><br><span class="line">  <span class="keyword">if</span> letter == <span class="string">'h'</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'当前字母 :'</span>, letter)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/03/%E5%88%97%E8%A1%A8%E5%92%8C%E5%85%83%E7%BB%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1001,215 +1313,10 @@ func() <span class="comment">// 不报错</span></code></pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/21/Events-%E6%A8%A1%E5%9D%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/21/Events-%E6%A8%A1%E5%9D%97/" class="post-title-link" itemprop="url">Events 模块</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-21 15:34:08" itemprop="dateCreated datePublished" datetime="2020-05-21T15:34:08+08:00">2020-05-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-03 09:33:20" itemprop="dateModified" datetime="2020-09-03T09:33:20+08:00">2020-09-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="EventEmitter类"><a href="#EventEmitter类" class="headerlink" title="EventEmitter类"></a>EventEmitter类</h2><p>events提供的对象 events.EventEmitter，封装了事件触发和事件监听器的功能。</p>
-<h4 id="监听和触发事件"><a href="#监听和触发事件" class="headerlink" title="监听和触发事件"></a>监听和触发事件</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化</span></span><br><span class="line"><span class="keyword">let</span> life = <span class="keyword">new</span> EventEmitter();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> water = <span class="function"><span class="params">who</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`给<span class="subst">$&#123;who&#125;</span>倒水`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听事件</span></span><br><span class="line">life.on(<span class="string">'comfort'</span>, water)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 触发事件</span></span><br><span class="line"><span class="keyword">const</span> hasComfortEventListener = life.emit(<span class="string">'comfort'</span>, <span class="string">'will'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// emit()方法返回是否添加了对应的事件监听器</span></span><br><span class="line"><span class="built_in">console</span>.log(hasComfortEventListener); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-<p>在 终端运行上述 js 文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ node index.js</span><br><span class="line">给will倒水</span><br><span class="line"><span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="移除事件"><a href="#移除事件" class="headerlink" title="移除事件"></a>移除事件</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">life.removeListener(<span class="string">'comfort'</span>, water); <span class="comment">// 移除单个事件</span></span><br><span class="line">life.removeAllListeners(<span class="string">'comfort'</span>); <span class="comment">// 移除一类事件</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="监听事件的个数"><a href="#监听事件的个数" class="headerlink" title="监听事件的个数"></a>监听事件的个数</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> count1 = EventEmitter.listenerCount(life, <span class="string">'comfort'</span>);</span><br><span class="line"><span class="keyword">const</span> count2 = life.listeners(<span class="string">'comfort'</span>).length;</span><br></pre></td></tr></table></figure>
-
-<h4 id="设置事件监听数的最大值"><a href="#设置事件监听数的最大值" class="headerlink" title="设置事件监听数的最大值"></a>设置事件监听数的最大值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">life.setMaxListeners(<span class="string">'12'</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/14/Node-js-%E6%A8%A1%E5%9D%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/14/Node-js-%E6%A8%A1%E5%9D%97/" class="post-title-link" itemprop="url">Node.js模块</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-14 10:20:50" itemprop="dateCreated datePublished" datetime="2020-05-14T10:20:50+08:00">2020-05-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-07 10:15:47" itemprop="dateModified" datetime="2021-06-07T10:15:47+08:00">2021-06-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Node.js 使用 CommonJs 模块规范。CommonJs 规范由JavaScript社区发起，在Node.js上应用并得到推广。</p>
-<h2 id="Node-js-模块分类"><a href="#Node-js-模块分类" class="headerlink" title="Node.js 模块分类"></a>Node.js 模块分类</h2><ul>
-<li>核心模块（在node启动时会预先加载）</li>
-<li>非核心模块 （包括：文件模块、第三方模块）</li>
-</ul>
-<h2 id="模块引用"><a href="#模块引用" class="headerlink" title="模块引用"></a>模块引用</h2><ul>
-<li><p>通过路径</p>
-  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> promise = <span class="built_in">require</span>(<span class="string">'../fileName.js'</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>通过模块名</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> promise = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><h3 id="1-创建和定义模块"><a href="#1-创建和定义模块" class="headerlink" title="1. 创建和定义模块"></a>1. 创建和定义模块</h3><pre><code>在 Node.js 中，只需要创建一个js文件就创建了一个模块，通过在 exports 变量上添加属性和方法就可以在向外部暴露想要暴露的数据和方法。
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils.js</span></span><br><span class="line">exports.sum = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">exports.msg = <span class="string">'hello world'</span>;</span><br></pre></td></tr></table></figure></code></pre><h3 id="2-使用模块"><a href="#2-使用模块" class="headerlink" title="2. 使用模块"></a>2. 使用模块</h3><pre><code>我们可以通过 require 方法来引用一个模块，然后就可以使用这个模块暴露出来的数据和方法。
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> utils = <span class="built_in">require</span>(<span class="string">'./utils.js'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> res = utils.sum(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="built_in">console</span>.log(res); <span class="comment">// 输出 3</span></span><br></pre></td></tr></table></figure></code></pre><h2 id="CommonJs-模块机制"><a href="#CommonJs-模块机制" class="headerlink" title="CommonJs 模块机制"></a>CommonJs 模块机制</h2><h3 id="1-模块默认导出对象字面量"><a href="#1-模块默认导出对象字面量" class="headerlink" title="1. 模块默认导出对象字面量 {}"></a>1. 模块默认导出对象字面量 {}</h3><pre><code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils.js</span></span><br><span class="line"><span class="built_in">console</span>.log(exports); <span class="comment">// 输出 &#123;&#125;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> utils = <span class="built_in">require</span>(<span class="string">'./utils.js'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(utils); <span class="comment">// 输出 &#123;&#125;</span></span><br></pre></td></tr></table></figure></code></pre><h3 id="2-修改模块默认导出数据为其他类型"><a href="#2-修改模块默认导出数据为其他类型" class="headerlink" title="2. 修改模块默认导出数据为其他类型"></a>2. 修改模块默认导出数据为其他类型</h3><p>  通过给 module.exports 赋值可以修改模块导出的数据为字符串、函数等其他任何类型。</p>
-<p>  例如：</p>
-  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils.js</span></span><br><span class="line">exports.sum = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(exports); <span class="comment">// 输出： &#123; sum: [Function] &#125;</span></span><br><span class="line">&#125;, <span class="number">200</span>);</span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> utils = <span class="built_in">require</span>(<span class="string">'./utils'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(utils); <span class="comment">// 输出：[Function: hello]</span></span><br></pre></td></tr></table></figure>
-
-<p>  上述代码说明 module.exports 覆盖了默认的 exports 变量，但是原来默认的 exports 变量在模块内部还存在。</p>
-<h3 id="3-模块内部的-exports-变量和模块的使用者-require-的对象是同一个引用"><a href="#3-模块内部的-exports-变量和模块的使用者-require-的对象是同一个引用" class="headerlink" title="3. 模块内部的 exports 变量和模块的使用者 require 的对象是同一个引用"></a>3. 模块内部的 exports 变量和模块的使用者 require 的对象是同一个引用</h3><pre><code>例如：
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">var</span> utils = <span class="built_in">require</span>(<span class="string">'./utils'</span>);</span><br><span class="line"></span><br><span class="line">utils.additional = <span class="string">'模块的使用者添加的属性'</span>;</span><br><span class="line"></span><br><span class="line">utils.sum = <span class="string">'改变模块内部原有的属性'</span>;</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(exports); <span class="comment">// &#123; sum: '改变模块内部原有的属性', additional: '模块的使用者添加的属性' &#125;</span></span><br><span class="line">&#125;, <span class="number">200</span>);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils.js</span></span><br><span class="line">exports.sum = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-在终端运行 index.js，输出如下：
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node index.js</span><br><span class="line">&#123; sum: <span class="string">'改变模块内部原有的属性'</span>, additional: <span class="string">'模块的使用者添加的属性'</span> &#125;。</span><br></pre></td></tr></table></figure>
-
-这就说明，在模块外部，可以修改模块暴露出来的对象。</code></pre>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1277,20 +1384,20 @@ func() <span class="comment">// 不报错</span></code></pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
