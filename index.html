@@ -156,6 +156,161 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/10/DOM%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/10/DOM%E6%A0%91/" class="post-title-link" itemprop="url">理解DOM树</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-10 15:12:07 / 修改时间：18:13:29" itemprop="dateCreated datePublished" datetime="2021-12-10T15:12:07+08:00">2021-12-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">浏览器工作原理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>原文链接：<a href="https://blog.poetries.top/browser-working-principle/guide/part5/lesson22.html" target="_blank" rel="noopener">DOM树：JavaScript是如何影响DOM树构建的</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/10/position-%E5%AE%9A%E4%BD%8D%E5%B1%9E%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/10/position-%E5%AE%9A%E4%BD%8D%E5%B1%9E%E6%80%A7/" class="post-title-link" itemprop="url">position 定位属性</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-10 13:59:10 / 修改时间：15:16:29" itemprop="dateCreated datePublished" datetime="2021-12-10T13:59:10+08:00">2021-12-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="position-定位属性"><a href="#position-定位属性" class="headerlink" title="position 定位属性"></a>position 定位属性</h2><p>定位允许您从正常的文档流布局中取出元素，并使它们具有不同的行为，例如放在另一个元素的上面，或者始终保持在浏览器视窗内的同一位置。</p>
+<h3 id="属性值"><a href="#属性值" class="headerlink" title="属性值"></a>属性值</h3><ul>
+<li>static：默认值，无特殊定位，遵循正常的文档流</li>
+<li>absolute：绝对定位，将对象从文本流脱离出来，相对于定位上下文(static 定位以外的第一个父元素) 进行定位；如果不存在这样的父元素，则依据body元素定位</li>
+<li>relative：相对定位，相对于其正常位置进行定位</li>
+<li>fixed：固定定位，相对于浏览器窗口进行定位</li>
+<li>sticky：粘性定位，该定位基于用户滚动的位置定位。页面未滚动时，它的行为就像 position:relative; 而当页面至粘性定位元素滚动超出目标区域时，它的表现就像 position:fixed;，它会固定在目标位置。</li>
+</ul>
+<p><strong>注意:</strong> Internet Explorer, Edge 15 及更早 IE 版本不支持 sticky 定位。 Safari 需要使用 -webkit- prefix (查看以下实例)。</p>
+<h3 id="绝对定位和相对定位的区别："><a href="#绝对定位和相对定位的区别：" class="headerlink" title="绝对定位和相对定位的区别："></a>绝对定位和相对定位的区别：</h3><p>a.    参照物不同：绝对定位的参照物是包含块，相对定位的参照物是元素本身；<br>b.    绝对定位将对象从文档流中脱离出来因此不占据空间，相对定位不破坏正常的文档流顺序；无论是否进行移动，元素仍然占据原来的空间；</p>
+<h3 id="Z-index层叠属性：检索或设置对象的层叠顺序"><a href="#Z-index层叠属性：检索或设置对象的层叠顺序" class="headerlink" title="Z-index层叠属性：检索或设置对象的层叠顺序"></a>Z-index层叠属性：检索或设置对象的层叠顺序</h3><p>属性值：</p>
+<ul>
+<li>Auto：默认值，遵从其父对象；</li>
+<li>Number：无单位的整数值，可为负数；</li>
+</ul>
+<p><strong>说明：</strong> number值大对象会覆盖在number值较小的对象之上。如果两个决定定位对象的属性具有相同的number值，那么他们将依据他们在HTML文档中的声明顺序层叠。<br>此属性仅作用于position属性值为relative，fixed和absolute的对象；该属性不会作用于窗口控件上，如：select元素。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Positioning" target="_blank" rel="noopener">MDN——定位</a></li>
+<li><a href="https://www.runoob.com/cssref/pr-class-position.html" target="_blank" rel="noopener">菜鸟教程——CSS position 属性</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/09/call%E3%80%81apply%E5%92%8Cbind%E7%9A%84%E7%94%A8%E6%B3%95%E5%92%8C%E5%8C%BA%E5%88%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -187,7 +342,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-10 13:52:01" itemprop="dateModified" datetime="2021-12-10T13:52:01+08:00">2021-12-10</time>
+                <time title="修改时间：2021-12-10 15:24:48" itemprop="dateModified" datetime="2021-12-10T15:24:48+08:00">2021-12-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -195,7 +350,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index"><span itemprop="name">js</span></a>
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
                 </span>
             </span>
 
@@ -936,7 +1091,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-16 18:13:19" itemprop="dateModified" datetime="2021-08-16T18:13:19+08:00">2021-08-16</time>
+                <time title="修改时间：2021-12-10 15:14:16" itemprop="dateModified" datetime="2021-12-10T15:14:16+08:00">2021-12-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -944,11 +1099,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSS%E5%B8%83%E5%B1%80/" itemprop="url" rel="index"><span itemprop="name">CSS布局</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSS%E5%B8%83%E5%B1%80/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
                 </span>
             </span>
 
@@ -1017,252 +1168,6 @@
 
 <p>方法四：flex实现（兼容IE10+）</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parentEle</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/11/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/11/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">错误处理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-09-11 10:19:47" itemprop="dateCreated datePublished" datetime="2020-09-11T10:19:47+08:00">2020-09-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-19 19:54:09" itemprop="dateModified" datetime="2021-01-19T19:54:09+08:00">2021-01-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>为了方便的处理程序运行的过程中可能发生的错误，高级语言通常都内置了一套try…except…finally…的错误处理机制，Python也不例外。</p>
-<p><strong>当我们认为某些代码可能会出错时，就可以用try来运行这段代码</strong>，如果执行出错，则后续代码不会继续执行，而是直接跳转至错误处理代码，即except语句块，执行完except后，如果有finally语句块，则执行finally语句块。</p>
-<p>例如：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    print(<span class="string">'try...'</span>)</span><br><span class="line">    r = <span class="number">10</span> / <span class="number">0</span></span><br><span class="line">    print(<span class="string">'result:'</span>, r)</span><br><span class="line"><span class="keyword">except</span> ZeroDivisionError <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">'except:'</span>, e)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    print(<span class="string">'finally...'</span>)</span><br><span class="line">    print(<span class="string">'END'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>上面的代码在计算10 / 0时会产生一个除法运算错误：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>...</span><br><span class="line"><span class="keyword">except</span>: division by zero</span><br><span class="line"><span class="keyword">finally</span>...</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-
-<p>从输出可以看到，当错误发生时，后续语句print(‘result:’, r)不会被执行，except由于捕获到ZeroDivisionError，因此被执行。最后，finally语句被执行。</p>
-<p>错误应该有很多种类，如果发生了不同类型的错误，应该由不同的except语句块处理。没错，可以有多个except来捕获不同类型的错误：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    print(<span class="string">'try...'</span>)</span><br><span class="line">    r = <span class="number">10</span> / int(<span class="string">'2'</span>)</span><br><span class="line">    print(<span class="string">'result:'</span>, r)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">'ValueError:'</span>, e)</span><br><span class="line"><span class="keyword">except</span> ZeroDivisionError <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">'ZeroDivisionError:'</span>, e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'no error!'</span>)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    print(<span class="string">'finally...'</span>)</span><br><span class="line">print(<span class="string">'END'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>int()函数可能会抛出ValueError，所以我们用一个except捕获ValueError，用另一个except捕获ZeroDivisionError。</p>
-<p>此外，如果没有错误发生，可以在except语句块后面加一个else，当没有错误发生时，会自动执行else语句。</p>
-<p>ython的错误其实也是class，所有的错误类型都继承自BaseException，所以在使用except时需要注意的是，它不但捕获该类型的错误，还把其子类也“一网打尽”。比如：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    foo()</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">'ValueError'</span>)</span><br><span class="line"><span class="keyword">except</span> UnicodeError <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">'UnicodeError'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>第二个except永远也捕获不到UnicodeError，因为UnicodeError是ValueError的子类，如果有，也被第一个except给捕获了。</p>
-<p>Python所有的错误都是从BaseException类派生的，常见的错误类型和继承关系看<a href="https://docs.python.org/3/library/exceptions.html#exception-hierarchy" target="_blank" rel="noopener">这里</a>。</p>
-<p><strong>使用try…except捕获错误还有一个巨大的好处，就是可以跨越多层调用</strong>，比如函数main()调用bar()，bar()调用foo()，结果foo()出错了，这时，只要main()捕获到了，就可以处理：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span> / int(s)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> foo(s) * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        bar(<span class="string">'0'</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'Error:'</span>, e)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        print(<span class="string">'finally...'</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="调用栈"><a href="#调用栈" class="headerlink" title="调用栈"></a>调用栈</h2><p>如果错误没有被捕获，它就会一直往上抛，最后被Python解释器捕获，打印一个错误信息，然后程序退出。来看看err.py：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># err.py:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span> / int(s)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> foo(s) * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    bar(<span class="string">'0'</span>)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
-
-<p>执行，结果如下：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ python3 err.py</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"err.py"</span>, line <span class="number">11</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    main()</span><br><span class="line">  File <span class="string">"err.py"</span>, line <span class="number">9</span>, <span class="keyword">in</span> main</span><br><span class="line">    bar(<span class="string">'0'</span>)</span><br><span class="line">  File <span class="string">"err.py"</span>, line <span class="number">6</span>, <span class="keyword">in</span> bar</span><br><span class="line">    <span class="keyword">return</span> foo(s) * <span class="number">2</span></span><br><span class="line">  File <span class="string">"err.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> foo</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span> / int(s)</span><br><span class="line">ZeroDivisionError: division by zero</span><br></pre></td></tr></table></figure>
-
-<p>出错并不可怕，可怕的是不知道哪里出错了。解读错误信息是定位错误的关键。我们从上往下可以看到整个错误的调用函数链。</p>
-<p>错误信息第1行：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br></pre></td></tr></table></figure>
-
-<p>告诉我们这是错误的跟踪信息。</p>
-<p>第2~3行：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File <span class="string">"err.py"</span>, line <span class="number">11</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  main()</span><br></pre></td></tr></table></figure>
-
-<p>调用main()出错了，在代码文件err.py的第11行代码，但原因是第9行：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File <span class="string">"err.py"</span>, line <span class="number">9</span>, <span class="keyword">in</span> main</span><br><span class="line">  bar(<span class="string">'0'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>调用bar(‘0’)出错了，在代码文件err.py的第9行代码，但原因是第6行：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File <span class="string">"err.py"</span>, line <span class="number">6</span>, <span class="keyword">in</span> bar</span><br><span class="line">  <span class="keyword">return</span> foo(s) * <span class="number">2</span></span><br></pre></td></tr></table></figure>
-
-<p>原因是return foo(s) * 2这个语句出错了，但这还不是最终原因，继续往下看：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File <span class="string">"err.py"</span>, line <span class="number">3</span>, <span class="keyword">in</span> foo</span><br><span class="line">  <span class="keyword">return</span> <span class="number">10</span> / int(s)</span><br></pre></td></tr></table></figure>
-
-<p>原因是return 10 / int(s)这个语句出错了，这是错误产生的源头，因为下面打印了：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZeroDivisionError: integer division <span class="keyword">or</span> modulo by zero</span><br></pre></td></tr></table></figure>
-
-<p>根据错误类型ZeroDivisionError，我们判断，int(s)本身并没有出错，但是int(s)返回0，在计算10 / 0时出错，至此，找到错误源头。</p>
-<p><strong>出错的时候，一定要分析错误的调用栈信息，才能定位错误的位置。</strong></p>
-<h2 id="记录错误"><a href="#记录错误" class="headerlink" title="记录错误"></a>记录错误</h2><p>如果不捕获错误，自然可以让Python解释器来打印出错误堆栈，但程序也被结束了。<strong>既然我们能捕获错误，就可以把错误堆栈打印出来，然后分析错误原因，同时，让程序继续执行下去</strong>。</p>
-<p>Python内置的logging模块可以非常容易地记录错误信息：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># err_logging.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span> / int(s)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> foo(s) * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        bar(<span class="string">'0'</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        logging.exception(e)</span><br><span class="line"></span><br><span class="line">main()</span><br><span class="line">print(<span class="string">'END'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>同样是出错，但程序打印完错误信息后会继续执行，并正常退出：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ python3 err_logging.py</span><br><span class="line">ERROR:root:division by zero</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"err_logging.py"</span>, line <span class="number">13</span>, <span class="keyword">in</span> main</span><br><span class="line">    bar(<span class="string">'0'</span>)</span><br><span class="line">  File <span class="string">"err_logging.py"</span>, line <span class="number">9</span>, <span class="keyword">in</span> bar</span><br><span class="line">    <span class="keyword">return</span> foo(s) * <span class="number">2</span></span><br><span class="line">  File <span class="string">"err_logging.py"</span>, line <span class="number">6</span>, <span class="keyword">in</span> foo</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span> / int(s)</span><br><span class="line">ZeroDivisionError: division by zero</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-
-<p>通过配置，logging还可以把错误记录到日志文件里，方便事后排查。</p>
-<h2 id="抛出错误"><a href="#抛出错误" class="headerlink" title="抛出错误"></a>抛出错误</h2><p>因为错误是class，捕获一个错误就是捕获到该class的一个实例。因此，错误并不是凭空产生的，而是有意创建并抛出的。Python的内置函数会抛出很多类型的错误，我们自己编写的函数也可以抛出错误。</p>
-<p>如果要抛出错误，首先根据需要，可以定义一个错误的class，选择好继承关系，然后，用raise语句抛出一个错误的实例：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># err_raise.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FooError</span><span class="params">(ValueError)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(s)</span>:</span></span><br><span class="line">    n = int(s)</span><br><span class="line">    <span class="keyword">if</span> n==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> FooError(<span class="string">'invalid value: %s'</span> % s)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span> / n</span><br><span class="line"></span><br><span class="line">foo(<span class="string">'0'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>执行，可以最后跟踪到我们自己定义的错误：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ python3 err_raise.py </span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"err_throw.py"</span>, line <span class="number">11</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    foo(<span class="string">'0'</span>)</span><br><span class="line">  File <span class="string">"err_throw.py"</span>, line <span class="number">8</span>, <span class="keyword">in</span> foo</span><br><span class="line">    <span class="keyword">raise</span> FooError(<span class="string">'invalid value: %s'</span> % s)</span><br><span class="line">__main__.FooError: invalid value: <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>只有在必要的时候才定义我们自己的错误类型。<strong>如果可以选择Python已有的内置的错误类型（比如ValueError，TypeError），尽量使用Python内置的错误类型</strong>。</p>
-<h2 id="错误处理方式"><a href="#错误处理方式" class="headerlink" title="错误处理方式"></a>错误处理方式</h2><p>我们来看一种错误处理的方式：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># err_reraise.py</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(s)</span>:</span></span><br><span class="line">    n = int(s)</span><br><span class="line">    <span class="keyword">if</span> n==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">'invalid value: %s'</span> % s)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span> / n</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        foo(<span class="string">'0'</span>)</span><br><span class="line">    <span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'ValueError!'</span>)</span><br><span class="line">        <span class="keyword">raise</span></span><br><span class="line"></span><br><span class="line">bar()</span><br></pre></td></tr></table></figure>
-
-<p>在bar()函数中，我们明明已经捕获了错误，但是，打印一个ValueError!后，又把错误通过raise语句抛出去了。</p>
-<p>其实这种错误处理方式相当常见。捕获错误目的只是记录一下，便于后续追踪。但是，由于当前函数不知道应该怎么处理该错误，所以，最恰当的方式是继续往上抛，让顶层调用者去处理。好比一个员工处理不了一个问题时，就把问题抛给他的老板，如果他的老板也处理不了，就一直往上抛，最终会抛给CEO去处理。</p>
-<p><strong>raise语句如果不带参数，就会把当前错误原样抛出。此外，在except中raise一个Error，还可以把一种类型的错误转化成另一种类型：</strong></p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="number">10</span> / <span class="number">0</span></span><br><span class="line"><span class="keyword">except</span> ZeroDivisionError:</span><br><span class="line">    <span class="keyword">raise</span> ValueError(<span class="string">'input error!'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>只要是合理的转换逻辑就可以，但是，决不应该把一个IOError转换成毫不相干的ValueError。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Python内置的try…except…finally用来处理错误十分方便。出错时，会分析错误信息并定位错误发生的代码位置才是最关键的。</p>
-<p>程序也可以主动抛出错误，让调用者来处理相应的错误。但是，应该在文档中写清楚可能会抛出哪些错误，以及错误产生的原因。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017598873256736" target="_blank" rel="noopener">廖雪峰Python教程——错误处理</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/07/%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/07/%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">递归函数</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-07 19:23:06 / 修改时间：20:32:13" itemprop="dateCreated datePublished" datetime="2020-09-07T19:23:06+08:00">2020-09-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>如果一个函数在内部调用自身本身，这个函数就是递归函数。</p>
-<p>举个例子，我们来计算阶乘n! = 1 x 2 x 3 x … x n：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fact</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n==<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> n * fact(n - <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-
-<p>上面就是一个递归函数。可以试试：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>fact(<span class="number">1</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fact(<span class="number">5</span>)</span><br><span class="line"><span class="number">120</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fact(<span class="number">100</span>)</span><br><span class="line"><span class="number">93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000</span></span><br></pre></td></tr></table></figure>
-
-<p>递归函数的优点是定义简单，逻辑清晰。理论上，所有的递归函数都可以写成循环的方式，但循环的逻辑不如递归清晰。</p>
-<p><strong>使用递归函数需要注意防止栈溢出。</strong>在计算机中，函数调用是通过栈（stack）这种数据结构实现的，每当进入一个函数调用，栈就会加一层栈帧，每当函数返回，栈就会减一层栈帧。由于栈的大小不是无限的，所以，递归调用的次数过多，会导致栈溢出。可以试试fact(1000)：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>fact(<span class="number">1000</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">4</span>, <span class="keyword">in</span> fact</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">4</span>, <span class="keyword">in</span> fact</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">4</span>, <span class="keyword">in</span> fact</span><br><span class="line">  [Previous line repeated <span class="number">995</span> more times]</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">2</span>, <span class="keyword">in</span> fact</span><br><span class="line">RecursionError: maximum recursion depth exceeded <span class="keyword">in</span> comparison</span><br></pre></td></tr></table></figure>
-
-<h2 id="解决递归调用栈溢出的方法是通过尾递归优化"><a href="#解决递归调用栈溢出的方法是通过尾递归优化" class="headerlink" title="解决递归调用栈溢出的方法是通过尾递归优化"></a>解决递归调用栈溢出的方法是通过尾递归优化</h2><p>尾递归是指，在函数返回的时候，调用自身本身，并且，return语句不能包含表达式。这样，<strong>编译器或者解释器就可以把尾递归做优化</strong>，使递归本身无论调用多少次，都只占用一个栈帧，不会出现栈溢出的情况。</p>
-<p>上面的fact(n)函数由于return n * fact(n - 1)引入了乘法表达式，所以就不是尾递归了。要改成尾递归方式，需要多一点代码，主要是要把每一步的乘积传入到递归函数中：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fact</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> fact_iter(n, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fact_iter</span><span class="params">(num, product)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> num == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> product</span><br><span class="line">    <span class="keyword">return</span> fact_iter(num - <span class="number">1</span>, num * product)</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，return fact_iter(num - 1, num * product)仅返回递归函数本身，num - 1和num * product在函数调用前就会被计算，不影响函数调用。</p>
-<p>尾递归调用时，如果做了优化，栈不会增长，因此，无论多少次调用也不会导致栈溢出。</p>
-<p>遗憾的是，大多数编程语言没有针对尾递归做优化，Python解释器也没有做优化，所以，即使把上面的fact(n)函数改成尾递归方式，也会导致栈溢出。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
-<li><p>使用递归函数的优点是逻辑简单清晰，缺点是过深的调用会导致栈溢出。</p>
-</li>
-<li><p>针对尾递归优化的语言可以通过尾递归防止栈溢出。尾递归事实上和循环是等价的，没有循环语句的编程语言只能通过尾递归实现循环。</p>
-</li>
-<li><p>Python标准的解释器没有针对尾递归做优化，任何递归函数都存在栈溢出的问题。</p>
-</li>
-</ul>
 
       
     </div>
@@ -1349,20 +1254,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
