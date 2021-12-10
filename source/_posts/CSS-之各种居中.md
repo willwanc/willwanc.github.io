@@ -2,7 +2,7 @@
 title: CSS 之各种居中
 date: 2021-01-19 19:49:55
 tags: ['元素居中', 'CSS居中']
-categories: ['CSS布局', 'CSS']
+categories: ['CSS']
 ---
 
 # CSS 之各种居中

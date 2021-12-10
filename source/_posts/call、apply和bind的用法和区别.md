@@ -1,7 +1,7 @@
 ---
 title: call、apply和bind的用法和区别
 tags: []
-categories: [js]
+categories: [javascript]
 date: 2021-12-09 17:11:47
 ---
 

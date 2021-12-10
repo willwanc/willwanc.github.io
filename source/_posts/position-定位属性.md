@@ -3,7 +3,7 @@ layout: w
 title: position 定位属性
 date: 2021-12-10 13:59:10
 tags: [position，定位属性]
-categories: [css]
+categories: [CSS]
 ---
 
 ## position 定位属性
@@ -18,7 +18,7 @@ categories: [css]
 - fixed：固定定位，相对于浏览器窗口进行定位
 - sticky：粘性定位，该定位基于用户滚动的位置定位。页面未滚动时，它的行为就像 position:relative; 而当页面至粘性定位元素滚动超出目标区域时，它的表现就像 position:fixed;，它会固定在目标位置。
 
-**注意: **Internet Explorer, Edge 15 及更早 IE 版本不支持 sticky 定位。 Safari 需要使用 -webkit- prefix (查看以下实例)。
+**注意:** Internet Explorer, Edge 15 及更早 IE 版本不支持 sticky 定位。 Safari 需要使用 -webkit- prefix (查看以下实例)。
 
 ### 绝对定位和相对定位的区别：
 
