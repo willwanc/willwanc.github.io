@@ -135,7 +135,7 @@ var boundAddX = _addX.bind(module, 10);
 boundAddX(); // 91
 
 // 2. 创建一个新函数boundAddX，把this绑定为module对象，不预设参数；
-var boundAddX = _addX.bind(module, 10);
+var boundAddX = _addX.bind(module);
 // 调用新函数时需要传参数
 boundAddX(9); // 90
 ```
