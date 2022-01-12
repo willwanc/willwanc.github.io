@@ -50,16 +50,16 @@ console.log(sub_1.getSuperValue()); // true
 
 ### 原型链继承的问题
 
-注意：由于子类的原型对象被赋值为父类的实例，父类的实例的原型属性指向父类的原型对象，而这个原型对象的 constructor 指向父类的构造函数，所以子类实例的 constructor 指向了父类的构造函数 SuperClass。
+注意：由于子类的原型对象被赋值为父类的实例，父类的实例的原型属性指向父类的原型对象，而这个原型对象的 constructor 指向父类的构造函数，所以子**类实例的 constructor 指向了父类的构造函数 SuperClas**s。
 
-````js
+```js
 // 子类实例的 constructor
 console.log(sub_1.constructor); // 指向父类的构造函数 SuperClass 继承原理
-``
+```
 
 ### 判断原型和实例的关系
 
-通过 instanceof 操作符可以检测某个对象是否是某个构造函数的实例，具体来说 instanceof 是通过检测对象的原型链上是否有某个构造函数的原型对象。
+通过 instanceof 操作符可以检测某个对象是否是某个构造函数的实例，具体来说**instanceof 是通过检测对象的原型链上是否有某个构造函数的原型对象**。
 
 例如：
 
@@ -69,7 +69,7 @@ console.log(sub_1 instanceof SuperClass); // true
 console.log(sub_1 instanceof Object); // true
 console.log(SubClass instanceof SuperClass); // false
 console.log(SubClass.prototype instanceof SuperClass); // true
-````
+```
 
 ### 原型链继承的缺点
 
@@ -128,7 +128,9 @@ console.log(sub_1.id); // 10
 console.log(sub_2.id); // 20 借用构造函数继承的问题
 ```
 
-只能继承父类的实例的属性和方法，不能继承父类原型对象中定义的属性和方法，所以借用构造函数继承也很少单独使用。
+### 借用构造函数继承的问题
+
+**只能继承父类的实例的属性和方法，不能继承父类原型对象中定义的属性和方法**，所以借用构造函数继承也很少单独使用。
 
 ## 组合继承
 
