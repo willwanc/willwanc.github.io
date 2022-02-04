@@ -32,17 +32,17 @@ const asyncReadFile = async function () {
 
 ### async 函数对 Generator 的改进：
 
-- 内置执行器
+- **内置执行器**
 
   Generator 函数的执行必须靠执行器，所以才有了`co`模块，而`async`函数自带执行器。
 
   调用了`asyncReadFile`函数，然后它就会自动执行，输出最后结果。这完全不像 Generator 函数，需要调用`next`方法，或者用`co`模块，才能真正执行，得到最后结果。
 
-- 更好的语义
+- **更好的语义**
 
   `async`表示函数里有异步操作，`await`表示紧跟在后面的表达式需要等待结果。
 
-- 更广的适用性
+- **更广的适用性**
 
   `co`模块约定，`yield`命令后面只能是 Thunk 函数或 Promise 对象，而`async`函数的`await`命令后面，可以是 Promise 对象和原始类型的值（数值、字符串和布尔值，但这时会自动转成立即 resolved 的 Promise 对象）。
 
@@ -149,7 +149,7 @@ getTitle('https://tc39.github.io/ecma262/').then(console.log)
 
 ### await 命令
 
-正常情况下，`await`命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。
+**正常情况下，`await`命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。**
 
 ```javascript
 async function f() {
@@ -161,7 +161,7 @@ async function f() {
 f().then(v => console.log(v))
 ```
 
-另一种情况是，`await`命令后面是一个`thenable`对象（即定义`then`方法的对象），那么`await`会将其等同于 Promise 对象。
+**另一种情况是，`await`命令后面是一个`thenable`对象（即定义`then`方法的对象），那么`await`会将其等同于 Promise 对象。**
 
 ```javascript
 class Sleep {
@@ -206,7 +206,7 @@ async function one2FiveInAsync() {
 one2FiveInAsync();
 ```
 
-`await`命令后面的 Promise 对象如果变为`reject`状态，则`reject`的参数会被`catch`方法的回调函数接收到。
+**`await`命令后面的 Promise 对象如果变为`reject`状态，则`reject`的参数会被`catch`方法的回调函数接收到。**
 
 ```javascript
 async function f() {
@@ -220,7 +220,7 @@ f()
 
 上面代码中，第二个`await`语句是不会执行的，因为第一个`await`语句状态变成了`reject`。
 
-有时，我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时可以将第一个`await`放在`try...catch`结构里面，这样不管这个异步操作是否成功，第二个`await`都会执行。
+有时，**我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时可以将第一个`await`放在`try...catch`结构里面**，这样不管这个异步操作是否成功，第二个`await`都会执行。
 
 ```javascript
 async function f() {
@@ -235,7 +235,7 @@ f()
 .then(v => console.log(v))
 ```
 
-另一种方法是`await`后面的 Promise 对象再跟一个`catch`方法，处理前面可能出现的错误。
+**另一种方法是`await`后面的 Promise 对象再跟一个`catch`方法**，处理前面可能出现的错误。
 
 ```javascript
 async function f() {
@@ -282,7 +282,7 @@ async function f() {
 }
 ```
 
-如果有多个`await`命令，可以统一放在`try...catch`结构中。
+**如果有多个`await`命令，可以统一放在`try...catch`结构中。**
 
 ```javascript
 async function main() {
@@ -301,7 +301,7 @@ async function main() {
 
 ## 4. 使用注意点
 
-- `await`命令后面的`Promise`对象，运行结果可能是`rejected`，所以最好把`await`命令放在`try...catch`代码块中。
+- **`await`命令后面的`Promise`对象，运行结果可能是`rejected`，所以最好把`await`命令放在`try...catch`代码块中。**
 
   ```javascript
   async function myFunction() {
@@ -321,7 +321,7 @@ async function main() {
   }
   ```
 
-- 多个`await`命令后面的异步操作，如果不存在继发关系，最好让它们同时触发。这样就会缩短程序的执行时间。
+- **多个`await`命令后面的异步操作，如果不存在继发关系，最好让它们同时触发。这样就会缩短程序的执行时间。**
 
   ```javascript
   let foo = await getFoo();
@@ -341,9 +341,9 @@ async function main() {
   let bar = await barPromise;
   ```
 
-- `await`命令只能用在`async`函数之中，如果用在普通函数，就会报错。
+- **`await`命令只能用在`async`函数之中，如果用在普通函数，就会报错。**
 
-- 第四点，async 函数可以保留运行堆栈。
+- **第四点，async 函数可以保留运行堆栈。**
 
   ```javascript
   const a = () => {
