@@ -251,3 +251,8 @@ el.addEventListener('myevent', function (event) {
 
 el.dispatchEvent(myEvent);
 ```
+
+## 参考
+
+- [阮一峰javascript事件模型](https://javascript.ruanyifeng.com/dom/event.html#toc12)
+- [JS每日一题javascript中的事件模型](https://mp.weixin.qq.com/s/avXtM79vyywVq6Gg6ui29A)
