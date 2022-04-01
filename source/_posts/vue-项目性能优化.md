@@ -426,7 +426,7 @@ const vueConfig = {
 
 在nginx的配置文件种添加如下配置：
 
-```conf
+```
 http {
     # 开启|关闭（off） gzip
     gzip on; 
