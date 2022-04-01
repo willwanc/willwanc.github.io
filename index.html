@@ -156,6 +156,382 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/24/js%E4%BA%8B%E4%BB%B6%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/24/js%E4%BA%8B%E4%BB%B6%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">js事件模型</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-24 11:17:00 / 修改时间：14:53:43" itemprop="dateCreated datePublished" datetime="2022-03-24T11:17:00+08:00">2022-03-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>当DOM元素上的发生某个事件时， 会产生一个事件对像 event，这个对象包含着与事件有关的所有信息。事件对象作为参数传给事件监听函数。浏览器原生提供一个Event对象，所有的事件都是这个对象的实例，或者说继承了Event.prototype对象。</p>
+<h3 id="事件对象的跨浏览器兼容"><a href="#事件对象的跨浏览器兼容" class="headerlink" title="事件对象的跨浏览器兼容"></a>事件对象的跨浏览器兼容</h3><ul>
+<li>获取事件对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">event ? event : <span class="built_in">window</span>.event;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取事件目标</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> event = event || <span class="built_in">window</span>.event,</span><br><span class="line">  target = event.target || event.srcElement;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>阻止事件默认事件</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> event = event || <span class="built_in">window</span>.event,</span><br><span class="line"><span class="keyword">if</span> (event.preventDefault)&#123;</span><br><span class="line">    event.preventDefault();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    event.returnValue = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>阻止事件冒泡</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> event = event || <span class="built_in">window</span>.event,</span><br><span class="line"><span class="keyword">if</span> (event.stopPropagation)&#123;</span><br><span class="line">    event.stopPropagation();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    event.cancelBubble = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="事件模型"><a href="#事件模型" class="headerlink" title="事件模型"></a>事件模型</h2><p>事件模型有三种：原始事件模型（DOM0 级）、标准事件模型（DOM2 级）、IE 事件模型</p>
+<h3 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h3><p>DOM 结构是一个树型结构，当一个 HTML 元素发生一个事件时，该事件会在元素结点与根结点之间的路径传播，传播路径经过的结点都会接收到该事件，这个传播过程称为 DOM 事件流。</p>
+<p>事件流共包含三个阶段：</p>
+<ul>
+<li>事件捕获阶段(capture phase)</li>
+<li>处于目标阶段(target phase)</li>
+<li>事件冒泡阶段(bubbling phase)</li>
+</ul>
+<h3 id="原始事件模型（DOM0-级）"><a href="#原始事件模型（DOM0-级）" class="headerlink" title="原始事件模型（DOM0 级）"></a>原始事件模型（DOM0 级）</h3><p>绑定事件监听函数：</p>
+<ul>
+<li>HTML 代码中直接绑定</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">onclick</span>=<span class="string">"fun()"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过 JS 代码绑定</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">".btn"</span>);</span><br><span class="line">btn.onclick = fun;</span><br></pre></td></tr></table></figure>
+
+<p>移除事件监听函数方式：只要将对应事件属性置为 null 即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.onclick = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><ul>
+<li>绑定速度快（但由于绑定速度太快，可能页面还未完全加载出来，以至于事件可能无法正常运行）</li>
+<li>跨浏览器兼容性好</li>
+<li>只支持冒泡，不支持捕获</li>
+<li>同一个类型的事件只能绑定一次</li>
+</ul>
+<h3 id="标准事件模型（DOM2-级）"><a href="#标准事件模型（DOM2-级）" class="headerlink" title="标准事件模型（DOM2 级）"></a>标准事件模型（DOM2 级）</h3><p>在该事件模型中，一次事件共有三个阶段:</p>
+<ul>
+<li>事件捕获阶段：事件从 document 一直向下传播到目标元素, 依次检查经过的节点是否绑定了事件监听函数，如果有则执行</li>
+<li>处于目标阶段：事件到达目标元素, 触发目标元素的监听函数</li>
+<li>事件冒泡阶段：事件从目标元素冒泡到 document, 依次检查经过的节点是否绑定了事件监听函数，如果有则执行</li>
+</ul>
+<p>绑定事件监听函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addEventListener(eventType, handler, useCapture);</span><br></pre></td></tr></table></figure>
+
+<p>移除事件监听函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">removeEventListener(eventType, handler, useCapture);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>eventType: 指定事件类型(不要加 on)</li>
+<li>handler: 事件监听函数</li>
+<li>useCapture: 布尔值，表示监听函数是否在捕获阶段（capture）触发，默认为false（监听函数只在冒泡阶段被触发）。该参数可选。一般设置为 false 与 IE 浏览器保持一致。</li>
+</ul>
+<h4 id="特性-1"><a href="#特性-1" class="headerlink" title="特性"></a>特性</h4><ul>
+<li>可以在一个 DOM 元素上绑定多个相同类型的事件监听函数</li>
+<li>可以指定事件监听函数执行时机</li>
+<li>兼容差，兼容 IE9+</li>
+</ul>
+<h3 id="IE-事件模型"><a href="#IE-事件模型" class="headerlink" title="IE 事件模型"></a>IE 事件模型</h3><p>IE 事件模型共有两个过程：</p>
+<ul>
+<li>处于目标阶段：事件到达目标元素, 触发目标元素的事件监听函数</li>
+<li>事件冒泡阶段：事件从目标元素冒泡到 document, 依次检查经过的节点是否绑定了事件监听函数，如果有则执行</li>
+</ul>
+<p>绑定事件监听函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">attachEvent(eventType, handler);</span><br></pre></td></tr></table></figure>
+
+<p>移除事件监听函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">detachEvent(eventType, handler);</span><br></pre></td></tr></table></figure>
+
+<h3 id="跨浏览器的事件监听程序"><a href="#跨浏览器的事件监听程序" class="headerlink" title="跨浏览器的事件监听程序"></a>跨浏览器的事件监听程序</h3><p>添加事件监听程序</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addHandler</span>(<span class="params">element, type, handler</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (element.addEventListener) &#123;</span><br><span class="line">        element.addEventListener(type, handler, <span class="literal">false</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (element.attachEvent) &#123;</span><br><span class="line">        element.attachEvent(<span class="string">"on"</span> + type, handler);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        element[<span class="string">"on"</span> + type] = handler;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>移除事件监听程序</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeHandler</span>(<span class="params">element, type, handler</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (element.removeListener) &#123;</span><br><span class="line">        element.removeListener(type, handler, <span class="literal">false</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (element.detachEvent) &#123;</span><br><span class="line">        element.detachEvent(<span class="string">"on"</span> + type, handler);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;    </span><br><span class="line">        element[<span class="string">"on"</span> + type] = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>this指向：事件监听函数内部的this指向触发事件的那个元素节点。</strong></p>
+<h2 id="事件的代理"><a href="#事件的代理" class="headerlink" title="事件的代理"></a>事件的代理</h2><p>由于事件会在冒泡阶段向上传播到父节点，因此可以把子节点的监听函数定义在父节点上，由父节点的监听函数统一处理多个子元素的事件。这种方法叫做事件的代理（delegation）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ul = <span class="built_in">document</span>.querySelector(<span class="string">'ul'</span>);</span><br><span class="line"></span><br><span class="line">ul.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (event.target.tagName.toLowerCase() === <span class="string">'li'</span>) &#123;</span><br><span class="line">    <span class="comment">// some code</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，click事件的监听函数定义在<code>&lt;ul&gt;</code>节点，但是实际上，它处理的是子节点<code>&lt;li&gt;</code>的click事件。</p>
+<p>事件代理的好处：<strong>只要定义一个监听函数，就能处理多个子节点的事件。而且以后再添加子节点，监听函数依然有效。</strong></p>
+<p>如果希望事件到某个节点为止，不再传播，可以使用事件对象的stopPropagation方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 事件传播到 p 元素后，就不再向下传播了</span></span><br><span class="line">p.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.stopPropagation();</span><br><span class="line">&#125;, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事件冒泡到 p 元素后，就不再向上冒泡了</span></span><br><span class="line">p.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.stopPropagation();</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，stopPropagation方法分别在捕获阶段和冒泡阶段，阻止了事件的传播。</p>
+<p><strong>但是，stopPropagation方法只会阻止事件的传播，不会阻止该事件触发<p>节点的其他click事件的监听函数。也就是说，不是彻底取消click事件。</strong></p>
+<p>如果想要彻底阻止这个事件的传播，不再触发后面所有click的监听函数，可以使用stopImmediatePropagation方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.stopImmediatePropagation();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">p.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 不会被触发</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义事件（CustomEvent）-接口"><a href="#自定义事件（CustomEvent）-接口" class="headerlink" title="自定义事件（CustomEvent） 接口"></a>自定义事件（CustomEvent） 接口</h2><p>CustomEvent 接口用于生成自定义的事件实例。那些浏览器预定义的事件，虽然可以手动生成，但是往往不能在事件上绑定数据。如果需要在触发事件的同时，传入指定的数据，就可以使用 CustomEvent 接口生成的自定义事件对象。</p>
+<p>浏览器原生提供CustomEvent()构造函数，用来生成 CustomEvent 事件实例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> CustomEvent(type, options)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>type：事件名称，必传。</li>
+<li>options: 配置对象，可选。配置对象除了接受 Event 事件的配置属性，只有一个自己的属性。</li>
+</ul>
+<blockquote>
+<p>detail：表示事件的附带数据，默认为null。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myEvent = <span class="keyword">new</span> CustomEvent(<span class="string">'myevent'</span>, &#123;</span><br><span class="line">  detail: &#123;</span><br><span class="line">    foo: <span class="string">'bar'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  bubbles: <span class="literal">true</span>, <span class="comment">// 布尔值，可选，默认为false，表示事件对象是否冒泡。</span></span><br><span class="line">  cancelable: <span class="literal">false</span> <span class="comment">// 可选，默认为false，表示事件是否可以被取消，即能否用</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">el.addEventListener(<span class="string">'myevent'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Hello '</span> + event.detail.foo);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">el.dispatchEvent(myEvent);</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://javascript.ruanyifeng.com/dom/event.html#toc12" target="_blank" rel="noopener">阮一峰javascript事件模型</a></li>
+<li><a href="https://mp.weixin.qq.com/s/avXtM79vyywVq6Gg6ui29A" target="_blank" rel="noopener">JS每日一题javascript中的事件模型</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/08/TCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/08/TCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="post-title-link" itemprop="url">TCP协议的三次握手和四次挥手</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-08 09:50:43 / 修改时间：09:50:55" itemprop="dateCreated datePublished" datetime="2022-03-08T09:50:43+08:00">2022-03-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>地址：<a href="https://github.com/jawil/blog/issues/14" target="_blank" rel="noopener">https://github.com/jawil/blog/issues/14</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/07/API%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/07/API%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" class="post-title-link" itemprop="url">API接口设计规范</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-07 17:51:13" itemprop="dateCreated datePublished" datetime="2022-03-07T17:51:13+08:00">2022-03-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-01 18:07:20" itemprop="dateModified" datetime="2022-04-01T18:07:20+08:00">2022-04-01</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>参考：<a href="https://www.cnblogs.com/qianxiaox/p/13730488.html" target="_blank" rel="noopener">https://www.cnblogs.com/qianxiaox/p/13730488.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/07/%E4%BB%8E%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E8%BE%93%E5%85%A5URL%E5%88%B0%E7%BD%91%E9%A1%B5%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90%E9%83%BD%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Will Wan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Will's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/07/%E4%BB%8E%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E8%BE%93%E5%85%A5URL%E5%88%B0%E7%BD%91%E9%A1%B5%E6%B8%B2%E6%9F%93%E5%AE%8C%E6%88%90%E9%83%BD%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F/" class="post-title-link" itemprop="url">从浏览器地址栏输入URL到网页渲染完成都发生了什么？</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-07 16:47:50" itemprop="dateCreated datePublished" datetime="2022-03-07T16:47:50+08:00">2022-03-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-11 17:52:22" itemprop="dateModified" datetime="2022-03-11T17:52:22+08:00">2022-03-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.DNS域名解析；<br>2.建立TCP连接；<br>3.发送HTTP请求；<br>4.服务器处理请求；<br>5.返回响应结果；<br>6.关闭TCP连接；<br>7.浏览器解析HTML；<br>8.浏览器布局渲染；</p>
+<p>参考内容：<a href="https://blog.csdn.net/chanzhi2016/article/details/78581044" target="_blank" rel="noopener">https://blog.csdn.net/chanzhi2016/article/details/78581044</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/02/15/vue-%E9%A1%B9%E7%9B%AE%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -187,7 +563,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-02 17:40:55" itemprop="dateModified" datetime="2022-03-02T17:40:55+08:00">2022-03-02</time>
+                <time title="修改时间：2022-04-01 18:08:09" itemprop="dateModified" datetime="2022-04-01T18:08:09+08:00">2022-04-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,54 +619,109 @@
 <p>在项目中使用：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img v-lazy&#x3D;&quot;&#x2F;static&#x2F;img&#x2F;1.png&quot;&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="11-组件库按需引入"><a href="#11-组件库按需引入" class="headerlink" title="11. 组件库按需引入"></a>11. 组件库按需引入</h3><p>组件库按需引入的方法，一般组件库文档都有介绍。</p>
+<h3 id="11-第三方依赖按需加载"><a href="#11-第三方依赖按需加载" class="headerlink" title="11. 第三方依赖按需加载"></a>11. 第三方依赖按需加载</h3><p>第三方依赖按需加载的方法，一般相应文档都有介绍。例如：</p>
+<ul>
+<li><a href="https://www.antdv.com/docs/vue/getting-started-cn/#%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD" target="_blank" rel="noopener">ant-design-vue按需加载</a></li>
+</ul>
 <h3 id="12-利用挂载节点会被替换的特性优化白屏问题"><a href="#12-利用挂载节点会被替换的特性优化白屏问题" class="headerlink" title="12. 利用挂载节点会被替换的特性优化白屏问题"></a>12. 利用挂载节点会被替换的特性优化白屏问题</h3><p>白屏问题：Vue 项目有个缺点，首次渲染会有一段时间的白屏。原因是首次渲染时需要加载很多资源，如 js、css、图片。但是如果遇上网络慢的情况，首先加载是 index.html 页面，其是没有内容，就会出现白屏。</p>
 <p>Vue 选项中的 render 函数若存在，则 Vue 构造函数不会从 template 选项或通过 el 选项指定的挂载元素中提取出的 HTML 模板编译渲染函数。也就是说渲染时，会直接用 render 渲染出来的内容替换 <code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &#39;vue&#39; import App from &#39;.&#x2F;App.vue&#39; new Vue(&#123; render: h &#x3D;&gt; h(App)</span><br><span class="line">&#125;).$mount(&#39;#app&#39;)</span><br></pre></td></tr></table></figure>
 
 <p>如果 <code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code> 里面有内容，就不会出现白屏。所以我们可以在 <code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code> 里添加首屏的静态页面。等真正的首屏加载出来后就会把<code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code> 这块结构都替换掉，给人一种视觉上的误差，就不会产生白屏。</p>
-<h2 id="项目打包的优化"><a href="#项目打包的优化" class="headerlink" title="项目打包的优化"></a>项目打包的优化</h2><h3 id="1-组件懒加载"><a href="#1-组件懒加载" class="headerlink" title="1. 组件懒加载"></a>1. 组件懒加载</h3><p>利用 import()异步引入组件实现懒加载。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">"views/home.vue"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="项目打包的优化"><a href="#项目打包的优化" class="headerlink" title="项目打包的优化"></a>项目打包的优化</h2><h3 id="常用打包优化手段"><a href="#常用打包优化手段" class="headerlink" title="常用打包优化手段"></a>常用打包优化手段</h3><p>主要包括：</p>
+<ul>
+<li>路由组件懒加载和聚合打包</li>
+<li>第三方依赖：分包通过CDN引入或者代码分割以利用客户端缓存</li>
+<li>js、css、图片等静态资源的合并压缩</li>
+<li>Prefetch（预获取）和Preload（预加载）模块</li>
+<li>开启gzip压缩</li>
+</ul>
+<h3 id="1-路由组件懒加载和聚合打包"><a href="#1-路由组件懒加载和聚合打包" class="headerlink" title="1. 路由组件懒加载和聚合打包"></a>1. 路由组件懒加载和聚合打包</h3><p><strong>路由组件懒加载：</strong>利用 import()异步引入组件实现路由组件懒加载，在访问相应的页面时再去加载对应页面的js文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">'/'</span>, <span class="attr">component</span>: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./Dashboard.vue'</span>) &#125;</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">'/contact'</span>, <span class="attr">component</span>: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./Contact.vue'</span>) &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-利用-externals-提取第三方依赖并用-CDN-引入"><a href="#2-利用-externals-提取第三方依赖并用-CDN-引入" class="headerlink" title="2. 利用 externals 提取第三方依赖并用 CDN 引入"></a>2. 利用 externals 提取第三方依赖并用 CDN 引入</h3><p>具体配置方式见：<a href="https://webpack.docschina.org/configuration/externals/#externals" target="_blank" rel="noopener">https://webpack.docschina.org/configuration/externals/#externals</a></p>
-<h3 id="3-代码分割"><a href="#3-代码分割" class="headerlink" title="3. 代码分割"></a>3. 代码分割</h3><p>代码分割是 webpack 中最引人注目的特性之一。此特性能够把代码分割到不同的 bundle 中，然后可以按需加载或并行加载这些文件。代码分割可以用于获取更小的 bundle，以及控制资源加载优先级。</p>
-<p>上面第2项通过CD使用是第三方依赖，具有不稳定性，万一CDN突然挂了，系统也就崩了，有一定的风险。也可以用SplitChunks实现代码分割，第三方依赖还可以在自己服务器上，减少风险。</p>
-<p>这部分 vue-cli3 默认已经配置。具体配置如下：</p>
+<p><strong>聚合打包：</strong>一般我们的一个页面的bundle可能非常的小，我们可以把一个模块的所有路由的页面都打包到一个bundle中来减少HTTP请求次数，在import函数加入 <code>/* webpackChunkName:&#39;group-superAdmin&#39; */</code> ，其中webpackChunkName的名称 group-superAdmin 是自己定义的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> router = [</span><br><span class="line">  &#123;</span><br><span class="line">    path: <span class="string">'superAdminAccountList'</span>,</span><br><span class="line">    name: <span class="string">'SuperAdminAccountList'</span>,</span><br><span class="line">    component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName:'group-superAdmin' */</span> <span class="string">'@/activity/superAdmin/AccountList'</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    path: <span class="string">'superAdminCreateAccount'</span>,</span><br><span class="line">    name: <span class="string">'SuperAdminCreateAccount'</span>,</span><br><span class="line">    component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName:'group-superAdmin' */</span> <span class="string">'@/activity/superAdmin/CreateAccount'</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    path: <span class="string">'superAdminRoleList'</span>,</span><br><span class="line">    name: <span class="string">'SuperAdminRoleList'</span>,</span><br><span class="line">    component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName:'group-superAdmin' */</span> <span class="string">'@/activity/superAdmin/RoleList'</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    path: <span class="string">'superAdminCreateRole/:id?/:look?'</span>,</span><br><span class="line">    name: <span class="string">'SuperAdminCreateRole'</span>,</span><br><span class="line">    component: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName:'group-superAdmin' */</span> <span class="string">'@/activity/superAdmin/CreateRole'</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-利用externals分离出第三方依赖并用CDN引入"><a href="#2-利用externals分离出第三方依赖并用CDN引入" class="headerlink" title="2. 利用externals分离出第三方依赖并用CDN引入"></a>2. 利用externals分离出第三方依赖并用CDN引入</h3><p>很多我们引入的第三份依赖文件是可以利用 CDN 上的资源的，这样可以大大加快我们访问这些资源的速度，同时减轻我们服务器的压力。但是也存在 CDN 服务器故障的风险。</p>
+<p>具体配置方式见：<a href="https://webpack.docschina.org/configuration/externals/#externals" target="_blank" rel="noopener">https://webpack.docschina.org/configuration/externals/#externals</a></p>
+<h3 id="3-代码分割（vue-cli4-项目默认已经配置）"><a href="#3-代码分割（vue-cli4-项目默认已经配置）" class="headerlink" title="3. 代码分割（vue-cli4 项目默认已经配置）"></a>3. 代码分割（vue-cli4 项目默认已经配置）</h3><p>代码分割是 webpack 中最引人注目的特性之一。此特性能够把代码分割到不同的 bundle 中。代码分割可以用于获取更小的 bundle，以及控制资源加载优先级和充分利用浏览器的缓存机制。</p>
+<p>上面第2项通过CDN使用是第三方依赖，具有不稳定性，万一CDN突然挂了，系统也就崩了，有一定的风险。也可以用SplitChunks实现代码分割，第三方依赖还可以在自己服务器上，减少风险。</p>
+<p>这部分 vue-cli4 项目默认已经配置。具体配置如下：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      cacheGroups: &#123;</span><br><span class="line">        vendors: &#123;</span><br><span class="line">          name: <span class="string">'chunk-vendors'</span>,</span><br><span class="line">          test: <span class="regexp">/[\\/]node_modules[\\/]/</span>,</span><br><span class="line">          priority: <span class="number">-10</span>,</span><br><span class="line">          chunks: <span class="string">'initial'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        common: &#123;</span><br><span class="line">          name: <span class="string">'chunk-common'</span>,</span><br><span class="line">          minChunks: <span class="number">2</span>,</span><br><span class="line">          priority: <span class="number">-20</span>,</span><br><span class="line">          chunks: <span class="string">'initial'</span>,</span><br><span class="line">          reuseExistingChunk: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>如果需要修改配置，可参考 <a href="https://webpack.docschina.org/plugins/split-chunks-plugin/#defaults" target="_blank" rel="noopener">SplitChunksPlugin配置</a></p>
-<h3 id="4-利用-MiniCssExtractPlugin-插件提取-css-样式到单独的文件"><a href="#4-利用-MiniCssExtractPlugin-插件提取-css-样式到单独的文件" class="headerlink" title="4. 利用 MiniCssExtractPlugin 插件提取 css 样式到单独的文件"></a>4. 利用 MiniCssExtractPlugin 插件提取 css 样式到单独的文件</h3><p>MiniCssExtractPlugin：该插件将 CSS 提取到单独的文件中。它为每个包含 CSS 的 JS 文件创建一个 CSS 文件。它支持 CSS 和 SourceMaps 的按需加载。</p>
-<p>在用 Vue Cli3 搭建的 Vue 项目中是用 css.extract 来控制 MiniCssExtractPlugin 插件是否启用，在生产环境中，css.extract 默认是开启的。</p>
-<h3 id="5-利用-OptimizeCssnanoPlugin-插件压缩和去重-css-样式文件"><a href="#5-利用-OptimizeCssnanoPlugin-插件压缩和去重-css-样式文件" class="headerlink" title="5. 利用 OptimizeCssnanoPlugin 插件压缩和去重 css 样式文件"></a>5. 利用 OptimizeCssnanoPlugin 插件压缩和去重 css 样式文件</h3><p>在用Vue Cli3搭建的Vue项目中默认使用OptimizeCssnanoPlugin插件来压缩和去重css样式文件。</p>
-<h3 id="6-开启optimization-minimize来压缩js代码"><a href="#6-开启optimization-minimize来压缩js代码" class="headerlink" title="6. 开启optimization.minimize来压缩js代码"></a>6. 开启optimization.minimize来压缩js代码</h3><p>optimization.minimize 选项有两个值true 和false ，为 true开启压缩js代码，为false 关闭压缩js代码。</p>
+<h3 id="4-利用-MiniCssExtractPlugin-插件提取-组件内-css-到单独的文件（vue-cli4-项目默认已经配置）"><a href="#4-利用-MiniCssExtractPlugin-插件提取-组件内-css-到单独的文件（vue-cli4-项目默认已经配置）" class="headerlink" title="4. 利用 MiniCssExtractPlugin 插件提取 组件内 css 到单独的文件（vue-cli4 项目默认已经配置）"></a>4. 利用 MiniCssExtractPlugin 插件提取 组件内 css 到单独的文件（vue-cli4 项目默认已经配置）</h3><p>MiniCssExtractPlugin：该插件将 CSS 提取到单独的文件中。它为每个包含 CSS 的 JS 文件创建一个 CSS 文件。它支持 CSS 和 SourceMaps 的按需加载。</p>
+<p>在用 Vue Cli4 搭建的 Vue 项目中是用 css.extract 来控制 MiniCssExtractPlugin 插件是否启用，在生产环境中，css.extract 默认是开启的。</p>
+<h3 id="5-利用-OptimizeCssnanoPlugin-插件压缩和去重-css-样式文件（vue-cli4-项目默认已经配置）"><a href="#5-利用-OptimizeCssnanoPlugin-插件压缩和去重-css-样式文件（vue-cli4-项目默认已经配置）" class="headerlink" title="5. 利用 OptimizeCssnanoPlugin 插件压缩和去重 css 样式文件（vue-cli4 项目默认已经配置）"></a>5. 利用 OptimizeCssnanoPlugin 插件压缩和去重 css 样式文件（vue-cli4 项目默认已经配置）</h3><p>在用Vue Cli4搭建的Vue项目中默认使用OptimizeCssnanoPlugin插件来压缩和去重css样式文件。</p>
+<h3 id="6-开启optimization-minimize来压缩js代码（vue-cli4-项目默认已经配置）"><a href="#6-开启optimization-minimize来压缩js代码（vue-cli4-项目默认已经配置）" class="headerlink" title="6. 开启optimization.minimize来压缩js代码（vue-cli4 项目默认已经配置）"></a>6. 开启optimization.minimize来压缩js代码（vue-cli4 项目默认已经配置）</h3><p>optimization.minimize 选项有两个值true 和false ，为 true开启压缩js代码，为false 关闭压缩js代码。</p>
 <p>在生产环境中默认为 true ，在开发环境中默认为false 。</p>
-<p>如果你在开发环境不需要用debug调试代码，可以也设置为true 来压缩js代码，提高页面加载速度。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports=&#123;</span><br><span class="line">    configureWebpack:<span class="function"><span class="params">config</span> =&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            optimization:&#123;</span><br><span class="line">                minimize: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在Vue Cli3中默认用TerserPlugin插件来压缩js代码。<br>默认的配置已经很好了，如果想修改TerserPlugin插件的配置，可以参考<a href="https://cli.vuejs.org/zh/guide/webpack.html#%E4%BF%AE%E6%94%B9%E6%8F%92%E4%BB%B6%E9%80%89%E9%A1%B9" target="_blank" rel="noopener">vue-cli修改插件配置文档</a>和<a href="https://www.npmjs.com/package/terser" target="_blank" rel="noopener">插件文档</a>：</p>
+<p>在vue-cli4 项目中默认用TerserPlugin插件来压缩js代码。<br>默认的配置已经很好了，如果想修改TerserPlugin插件的配置，可以参考<a href="https://cli.vuejs.org/zh/guide/webpack.html#%E4%BF%AE%E6%94%B9%E6%8F%92%E4%BB%B6%E9%80%89%E9%A1%B9" target="_blank" rel="noopener">vue-cli修改插件配置文档</a>和<a href="https://www.npmjs.com/package/terser" target="_blank" rel="noopener">插件文档</a>：</p>
 <p>如果想用其它插件来压缩js代码，可以在 optimization.minimizer 选项中添加，其值为数组。</p>
 <p>用chainWebpack来添加，其中WebpackPlugin为插件名称，args为插件参数。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> WebpackPlugin = <span class="built_in">require</span>(插件名称)</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    chainWebpack: <span class="function"><span class="params">config</span> =&gt;</span>&#123;</span><br><span class="line">        config.optimization</span><br><span class="line">            .minimizer(name)</span><br><span class="line">            .use(WebpackPlugin, args)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="7-利用image-webpack-loader进行压缩图片"><a href="#7-利用image-webpack-loader进行压缩图片" class="headerlink" title="7. 利用image-webpack-loader进行压缩图片"></a>7. 利用image-webpack-loader进行压缩图片</h3><p>用Vue Cli3搭建的Vue项目中，图片是没进行压缩就直接用url-loader和file-loader处理的。<strong>可以用image-webpack-loader进行压缩图片后再给url-loader和file-loader处理。</strong></p>
-<p>先安装 image-webpack-loader。<strong>注意：如果用yarn或npm 安装可能会失败（包括修改安装源安装），此时可以用cnpm安装</strong></p>
+<h3 id="7-利用image-webpack-loader进行压缩图片"><a href="#7-利用image-webpack-loader进行压缩图片" class="headerlink" title="7. 利用image-webpack-loader进行压缩图片"></a>7. 利用image-webpack-loader进行压缩图片</h3><p>用Vue Cli4搭建的Vue项目中，图片是没进行压缩就直接用url-loader和file-loader处理的。<strong>可以用image-webpack-loader进行压缩图片后再给url-loader和file-loader处理。</strong></p>
+<p>先安装 image-webpack-loader。<strong>注意：如果用yarn或npm 安装可能会失败（包括修改安装源），此时可以用cnpm安装</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 先安装cnpm</span><br><span class="line">npm install cnpm -g --registry=https://registry.npm.taobao.org</span><br><span class="line"></span><br><span class="line">// 安装image-webpack-loader</span><br><span class="line">cnpm install --save-dev  image-webpack-loader</span><br></pre></td></tr></table></figure>
 
 <p>在vue.config.js种添加配置：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    chainWebpack: <span class="function"><span class="params">config</span> =&gt;</span>&#123;</span><br><span class="line">        config.module</span><br><span class="line">            .rule(<span class="string">'images'</span>)</span><br><span class="line">            .use(<span class="string">'imageWebpackLoader'</span>)</span><br><span class="line">            .loader(<span class="string">'image-webpack-loader'</span>)</span><br><span class="line">            .options(&#123;</span><br><span class="line">                <span class="comment">// 生产环境禁用压缩，默认启用。</span></span><br><span class="line">                disable: process.env.NODE_ENV === <span class="string">'development'</span>,</span><br><span class="line">                <span class="comment">// 控制压缩JPEG图像的配置</span></span><br><span class="line">                mozjpeg:&#123;</span><br><span class="line">                    quality:<span class="number">75</span> <span class="comment">// 压缩质量，范围0（最差）至100（最好）</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="comment">// 控制压缩PNG图像的配置，默认启用。</span></span><br><span class="line">                optipng:&#123;</span><br><span class="line">                    OptimizationLevel:<span class="number">3</span> <span class="comment">// 优化级别，0-7，数值越高，压缩质量越好，但是速度越慢，默认为3。</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="comment">// 控制压缩PNG图像的配置，默认启用。</span></span><br><span class="line">                pngquant:&#123;</span><br><span class="line">                    speed:<span class="number">4</span>,</span><br><span class="line">                    quality:[<span class="number">0.2</span>,<span class="number">0.5</span>]</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="comment">// 控制压缩GIF图像的配置，默认启用。</span></span><br><span class="line">                gifsicle:&#123;</span><br><span class="line">                    OptimizationLevel:<span class="number">1</span> <span class="comment">// 优化级别，1-3；较高的水平需要更长的时间，但可能会有更好的效果。</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="comment">// 将JPG和PNG图像压缩为WEBP，默认不启用，需要配置后才启用。启用后，可以将JPG和PNG图像压缩输出大小更小的图片，但比用mozjpeg、optipng、pngquant压缩更耗时</span></span><br><span class="line">                webp:&#123;</span><br><span class="line">                    quality:<span class="number">75</span>, <span class="comment">// 品质，0-100，默认为75，值越高品质越好。</span></span><br><span class="line">                    lossless:<span class="literal">true</span>, <span class="comment">// 是否无损压缩，默认为false</span></span><br><span class="line">                    nearLossless:<span class="number">75</span> <span class="comment">// nearLossless 使用额外的有损预处理步骤进行无损编码 0-100</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="8-在Webpack上开启gzip压缩"><a href="#8-在Webpack上开启gzip压缩" class="headerlink" title="8. 在Webpack上开启gzip压缩"></a>8. 在Webpack上开启gzip压缩</h3><p>首先安装 compression-webpack-plugin，<strong>这里要注意和webpack版本的兼容性，如果是webpack4请安装<a href="mailto:compression-webpack-plugin@4.0.0">compression-webpack-plugin@4.0.0</a></strong></p>
+
+<h3 id="8-Prefetch（预获取）和Preload（预加载）资源（vue-cli4-项目默认已经配置）"><a href="#8-Prefetch（预获取）和Preload（预加载）资源（vue-cli4-项目默认已经配置）" class="headerlink" title="8. Prefetch（预获取）和Preload（预加载）资源（vue-cli4 项目默认已经配置）"></a>8. Prefetch（预获取）和Preload（预加载）资源（vue-cli4 项目默认已经配置）</h3><p>Webpack v4.6.0+ 增加了对预获取和预加载的支持。</p>
+<p>在声明 import 时，使用下面这些内置指令，可以让 webpack 输出 “resource hint(资源提示)”，来告知浏览器：</p>
+<ul>
+<li>prefetch(预获取)：将来某些导航下可能需要的资源</li>
+<li>preload(预加载)：当前导航下可能需要资源</li>
+</ul>
+<p>prefetch 和 preload 的不同之处：</p>
+<p><strong>preload chunk 会在父 chunk 加载时，以并行方式立即开始加载。prefetch chunk 会在父 chunk 加载结束后浏览器闲置时开始加载。</strong></p>
+<p>具体配置详见：<a href="https://webpack.docschina.org/guides/code-splitting/#prefetchingpreloading-modules。" target="_blank" rel="noopener">https://webpack.docschina.org/guides/code-splitting/#prefetchingpreloading-modules。</a></p>
+<p>vue-cli4 项目默认使用了 preload-webpack-plugin 来自动处理模块的预加载和预获取。配置如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">  <span class="comment">/* config.plugin('preload') */</span></span><br><span class="line">    <span class="keyword">new</span> PreloadPlugin(</span><br><span class="line">      &#123;</span><br><span class="line">        rel: <span class="string">'preload'</span>,</span><br><span class="line">        include: <span class="string">'initial'</span>, <span class="comment">// 初始模块（同步）</span></span><br><span class="line">        fileBlacklist: [</span><br><span class="line">          /\.map$/,</span><br><span class="line">          /hot-update\.js$/</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ),</span><br><span class="line">    <span class="comment">/* config.plugin('prefetch') */</span></span><br><span class="line">    <span class="keyword">new</span> PreloadPlugin(</span><br><span class="line">      &#123;</span><br><span class="line">        rel: <span class="string">'prefetch'</span>,</span><br><span class="line">        include: <span class="string">'asyncChunks'</span> <span class="comment">// 异步模块</span></span><br><span class="line">      &#125;</span><br><span class="line">    ),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>上述配置意为：把初始模块配置为预加载资源，把异步模块配置为预获取资源。更多配置见：<a href="https://www.npmjs.com/package/@vue/preload-webpack-plugin" target="_blank" rel="noopener">插件文档</a></p>
+<h3 id="9-在Webpack上开启gzip压缩"><a href="#9-在Webpack上开启gzip压缩" class="headerlink" title="9. 在Webpack上开启gzip压缩"></a>9. 在Webpack上开启gzip压缩</h3><p>首先安装 compression-webpack-plugin，<strong>这里要注意和webpack版本的兼容性，如果是webpack4请安装<a href="mailto:compression-webpack-plugin@4.0.0">compression-webpack-plugin@4.0.0</a></strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i compression-webpack-plugin -D</span><br></pre></td></tr></table></figure>
 
 <p>然后在 vue.config.js 中添加配置：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> CompressionPlugin = <span class="built_in">require</span>(<span class="string">'compression-webpack-plugin'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    configureWebpack: <span class="function"><span class="params">config</span> =&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            plugins: [</span><br><span class="line">                <span class="keyword">new</span> CompressionPlugin()</span><br><span class="line">            ],</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> CompressionPlugin = <span class="built_in">require</span>(<span class="string">'compression-webpack-plugin'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    configureWebpack: <span class="function"><span class="params">config</span> =&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            plugins: [</span><br><span class="line">                <span class="keyword">new</span> CompressionPlugin(&#123;</span><br><span class="line">                    algorithm: <span class="string">'gzip'</span>,<span class="comment">// 压缩算法</span></span><br><span class="line">                    test: <span class="regexp">/\.js$|\.html$|.\css/</span>, <span class="comment">// 匹配文件类型</span></span><br><span class="line">                    threshold: <span class="number">10240</span>, <span class="comment">// 对超过10k的数据压缩</span></span><br><span class="line">                    deleteOriginalAssets: <span class="literal">false</span> <span class="comment">// 是否删除源文件</span></span><br><span class="line">                &#125;)</span><br><span class="line">            ],</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>执行 npm run build 命令后，打开 dist 文件，会发现多出很多后缀为 .gz 的文件，这就是用gzip压缩后的文件。</p>
 <p>该插件的具体配置项见：<a href="https://www.npmjs.com/package/compression-webpack-plugin" target="_blank" rel="noopener">https://www.npmjs.com/package/compression-webpack-plugin</a></p>
+<h3 id="10-打包后的文件分析和优化"><a href="#10-打包后的文件分析和优化" class="headerlink" title="10. 打包后的文件分析和优化"></a>10. 打包后的文件分析和优化</h3><p>此外，项目打包后的文件大小直接影响我们访问页面的加载速度，所以我们要知道哪些打包后的文件最大，最影响性能。</p>
+<p>用<a href="https://www.npmjs.com/package/webpack-bundle-analyzer" target="_blank" rel="noopener">webpack-bundle-analyzer</a>插件来生成一个报告。</p>
+<p>用 vue-cli4 创建的项目 可以直接在 package.json 的 script 中添加如下配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"build-report"</span>: <span class="string">"vue-cli-service build --report"</span></span><br></pre></td></tr></table></figure>
+
+<p>然后，在命令行中运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build-report</span><br></pre></td></tr></table></figure>
+
+<p>打包完成后会在dist文件中生成一个report.html文件，我们在浏览器中打开它就能看到打包后的文件大小分析报告图。通过分析报告图我们可以清晰直观的看出每个打包后文件的大小，进一步对比较大和依赖包进行分析看是否能够优化。</p>
+<p>比如：</p>
+<p>在我的项目中用到ant-design-vue的部分图标，我发现被全部图标都被打包进项目了，此时就可以参考这两个链接进行按需引入图标：<a href="https://github.com/vueComponent/pro-components/blob/v2/examples/vue.config.js#L39-L43" target="_blank" rel="noopener">vue.config.js#L39-L43</a>、<a href="https://github.com/vueComponent/pro-layout/blob/master/examples/src/core/antd/icons.js" target="_blank" rel="noopener">icons.js</a></p>
+<p>还有我们常用的moment.js，默认是包含很多语言包的，这些语言包默认也被打包尽我们的代码里了。通过在vue.config.js添加如下配置，我们可以把这些语言包从打包文件中剔除：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue.config.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// vue.config.js</span></span><br><span class="line"><span class="keyword">const</span> vueConfig = &#123;</span><br><span class="line">  configureWebpack: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      <span class="comment">// Ignore all locale files of moment.js</span></span><br><span class="line">      <span class="keyword">new</span> webpack.IgnorePlugin(<span class="regexp">/^\.\/locale$/</span>, /moment$/)</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 <h2 id="项目部署的优化"><a href="#项目部署的优化" class="headerlink" title="项目部署的优化"></a>项目部署的优化</h2><h3 id="1-在Nginx上开启gzip压缩"><a href="#1-在Nginx上开启gzip压缩" class="headerlink" title="1. 在Nginx上开启gzip压缩"></a>1. 在Nginx上开启gzip压缩</h3><p>在nginx的配置文件种添加如下配置：</p>
-<p>```conf<br>http {<br>    gzip  on;<br>    gzip_min_length 1k;<br>    gzip_comp_level 5;<br>    gzip_types application/javascript image/png image/gif image/jpeg text/css text/plain;<br>    gzip_buffers 4 4k;<br>    gzip_http_version 1.1;<br>    gzip_vary on;<br>}</p>
-<h4 id="Nginx和Webpack开启gzip压缩的区别"><a href="#Nginx和Webpack开启gzip压缩的区别" class="headerlink" title="Nginx和Webpack开启gzip压缩的区别"></a>Nginx和Webpack开启gzip压缩的区别</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    # 开启|关闭（off） gzip</span><br><span class="line">    gzip on; </span><br><span class="line"></span><br><span class="line">    # 开启后如果能找到 .gz 文件，直接返回该文件，不会启用服务端压缩。</span><br><span class="line">    gzip_static on; </span><br><span class="line"></span><br><span class="line">    # 文件大于指定 size 才压缩，以 kb 为单位。</span><br><span class="line">    gzip_min_length 1k; </span><br><span class="line"></span><br><span class="line">    # 压缩级别，1-9，值越大压缩比越大，但更加占用 CPU，且压缩效率越来越低。</span><br><span class="line">    gzip_comp_level 5; </span><br><span class="line"></span><br><span class="line">    # 要压缩的文件类型。</span><br><span class="line">    gzip_types application&#x2F;javascript image&#x2F;png image&#x2F;gif image&#x2F;jpeg text&#x2F;css text&#x2F;plain;</span><br><span class="line">    </span><br><span class="line">    # 请求压缩的缓冲区数量和大小，以 4k 为单位，32 为倍数。</span><br><span class="line">    gzip_buffers 32 4k;</span><br><span class="line">    </span><br><span class="line">    gzip_http_version 1.1;</span><br><span class="line"></span><br><span class="line">    # 是否添加响应头 Vary: Accept-Encoding 建议开启。</span><br><span class="line">    gzip_vary on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Nginx和Webpack开启gzip压缩的区别"><a href="#Nginx和Webpack开启gzip压缩的区别" class="headerlink" title="Nginx和Webpack开启gzip压缩的区别"></a>Nginx和Webpack开启gzip压缩的区别</h4><p>webpack 开启 gzip 压缩：只是在打包的时候生成相应地gz压缩文件，如果 Nginx 没有开启 gzip，浏览器在获取相应的文件是还是获取未进行 gzip 压缩的文件。<br>nginx 服务器开启 gzip 压缩：会将静态资源在服务端进行压缩，压缩包传输给浏览器后，浏览器再进行解压使用，这大大提高了网络传输的效率。</p>
+<p><strong>总结：建议Nginx和Webpack压缩都开启压缩，且在Nginx加上gzip_static on; 的配置，减少服务器的CPU的使用。</strong></p>
+<h3 id="2-静态资源配置缓存策略"><a href="#2-静态资源配置缓存策略" class="headerlink" title="2.静态资源配置缓存策略"></a>2.静态资源配置缓存策略</h3><p>主要包括强缓存和弱缓存（协商缓存），具体配置有待研究。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.jianshu.com/p/ef44aaa41fe8" target="_blank" rel="noopener">前端面试如何说解vue项目性能优化，你确定不来看看吗？</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/421604906" target="_blank" rel="noopener">Vue项目性能优化实战总结，7个实用方法</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/395587041" target="_blank" rel="noopener">基于vue-cli创建的项目进行打包优化</a></li>
+<li><a href="https://segmentfault.com/a/1190000022750932" target="_blank" rel="noopener">Vue-cli3脚手架3的webpack打包优化压缩</a></li>
+<li><a href="https://pro.antdv.com/docs/faq#%E7%BC%96%E8%AF%91%E5%90%8E%E4%BD%93%E7%A7%AF%E5%BE%88%E5%A4%A7%EF%BC%9F" target="_blank" rel="noopener">ant-design-pro-vue常见问题——编译后体积很大</a></li>
+<li><a href="https://cli.vuejs.org/zh/guide" target="_blank" rel="noopener">Vue CLI 指南</a></li>
+<li><a href="https://webpack.docschina.org/configuration/" target="_blank" rel="noopener">Webpack 中文文档</a></li>
+</ul>
+
       
     </div>
 
@@ -969,465 +1400,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/11/17/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BFnuxt%E9%A1%B9%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/17/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BFnuxt%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">阿里云服务器部署上线nuxt项目</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-11-17 16:21:59" itemprop="dateCreated datePublished" datetime="2021-11-17T16:21:59+08:00">2021-11-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-18 11:57:22" itemprop="dateModified" datetime="2021-11-18T11:57:22+08:00">2021-11-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nuxt/" itemprop="url" rel="index"><span itemprop="name">nuxt</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近公司重新开发的企业官网，考虑企业官网对SEO有一定要求，所以考虑使用服务端渲染（ssr），采用了vue.js官网推荐的nuxt.js框架进行开发。nuxt 项目和单页应用（spa）项目除了开发上有一些区别之外，部署上线也相对复杂一些，本文对部署上线流程做一下简单的记录。</p>
-<h4 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h4><p>服务器系统版本：CentOS Linux release 7.6.1810 (Core)</p>
-<h2 id="安装nodejs-由于yum可以安装的nodejs版本较老，这里我们自己下载安装"><a href="#安装nodejs-由于yum可以安装的nodejs版本较老，这里我们自己下载安装" class="headerlink" title="安装nodejs (由于yum可以安装的nodejs版本较老，这里我们自己下载安装)"></a>安装nodejs (由于yum可以安装的nodejs版本较老，这里我们自己下载安装)</h2><h3 id="1-下载"><a href="#1-下载" class="headerlink" title="1. 下载"></a>1. 下载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://cdn.npm.taobao.org/dist/node/v14.16.0/node-v14.16.0-linux-x64.tar.xz -P /opt/</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-解压tar包"><a href="#2-解压tar包" class="headerlink" title="2. 解压tar包"></a>2. 解压tar包</h3><p>进入第一步下载到的文件夹，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt</span><br></pre></td></tr></table></figure>
-
-<p>解压</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xf node-v14.16.0-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-配置环境变量"><a href="#3-配置环境变量" class="headerlink" title="3. 配置环境变量"></a>3. 配置环境变量</h3><h4 id="3-1-配置软连接（方便使用）"><a href="#3-1-配置软连接（方便使用）" class="headerlink" title="3.1 配置软连接（方便使用）"></a>3.1 配置软连接（方便使用）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s node-v14.16.0-linux-x64 node</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-2-配置环境变量"><a href="#3-2-配置环境变量" class="headerlink" title="3.2 配置环境变量"></a>3.2 配置环境变量</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PATH=/opt/node/bin/:<span class="variable">$PATH</span>"</span> &gt;&gt; /etc/profile</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-使配置文件生效"><a href="#4-使配置文件生效" class="headerlink" title="4. 使配置文件生效"></a>4. 使配置文件生效</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-测试，在任意目录下执行-node-v，能打印出版本号就说明安装配置成功"><a href="#5-测试，在任意目录下执行-node-v，能打印出版本号就说明安装配置成功" class="headerlink" title="5. 测试，在任意目录下执行 node -v，能打印出版本号就说明安装配置成功"></a>5. 测试，在任意目录下执行 <code>node -v</code>，能打印出版本号就说明安装配置成功</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="安装yarn"><a href="#安装yarn" class="headerlink" title="安装yarn"></a>安装yarn</h2><p>由于我的项目使用yarn管理项目依赖，所以需要安装yarn，如果你使用npm或者其他包管理工具，可以跳过此步骤不必安装，<strong>注意：如果使用npm，后面打包，安装依赖和运行项目要替换成对应的命令</strong>。</p>
-<h3 id="1-下载-1"><a href="#1-下载-1" class="headerlink" title="1. 下载"></a>1. 下载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-安装（yum安装会自动配置好环境变量）"><a href="#2-安装（yum安装会自动配置好环境变量）" class="headerlink" title="2. 安装（yum安装会自动配置好环境变量）"></a>2. 安装（yum安装会自动配置好环境变量）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install yarn</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-测试（同样打印出版本号就说明安装成功）"><a href="#3-测试（同样打印出版本号就说明安装成功）" class="headerlink" title="3. 测试（同样打印出版本号就说明安装成功）"></a>3. 测试（同样打印出版本号就说明安装成功）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn -v</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="打包部署"><a href="#打包部署" class="headerlink" title="打包部署"></a>打包部署</h2><h3 id="1-打包"><a href="#1-打包" class="headerlink" title="1. 打包"></a>1. 打包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn build</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-部署，打包完成之后把下列文件和文件夹上传到服务器-我是放在-var-www"><a href="#2-部署，打包完成之后把下列文件和文件夹上传到服务器-我是放在-var-www" class="headerlink" title="2. 部署，打包完成之后把下列文件和文件夹上传到服务器(我是放在/var/www/)"></a>2. 部署，打包完成之后把下列文件和文件夹上传到服务器(我是放在/var/www/)</h3><ul>
-<li>.nuxt/ 文件夹</li>
-<li>static/ 文件夹</li>
-<li>package.json</li>
-<li>nuxt.config.js</li>
-</ul>
-<h3 id="3-安装项目依赖"><a href="#3-安装项目依赖" class="headerlink" title="3. 安装项目依赖"></a>3. 安装项目依赖</h3><p>首先，进入到上传到的服务器目录，然后执行安装命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-运行项目"><a href="#4-运行项目" class="headerlink" title="4. 运行项目"></a>4. 运行项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn start</span><br></pre></td></tr></table></figure>
-
-<p>项目默认运行在<code>127.0.0.1:3000</code>（如果开发过程中修改了端口配置，访问时也要修改），此时在服务器本地可以访问项目页面了。但是外部还不能通过网络访问，下面我们通过nginx做一个反向代理让我们的网页可以通过网络访问。</p>
-<h2 id="使用nginx做反向代理"><a href="#使用nginx做反向代理" class="headerlink" title="使用nginx做反向代理"></a>使用nginx做反向代理</h2><h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-测试"><a href="#2-测试" class="headerlink" title="2. 测试"></a>2. 测试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -v</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-启动nginx"><a href="#3-启动nginx" class="headerlink" title="3. 启动nginx"></a>3. 启动nginx</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx</span><br></pre></td></tr></table></figure>
-
-<p>启动之后就可以使用服务器ip访问nginx服务器欢迎页面了，默认启动在80端口，如果无法访问欢迎页面，请检查服务安全规则或者防火墙配置，看相应端口是否开放。</p>
-<h3 id="4-修改nginx配置，反向代理到nuxt项目页面"><a href="#4-修改nginx配置，反向代理到nuxt项目页面" class="headerlink" title="4. 修改nginx配置，反向代理到nuxt项目页面"></a>4. 修改nginx配置，反向代理到nuxt项目页面</h3><p>修改nginx.conf文件(按上述安装方式，该文件在/etc/nginx/目录下)。在 server 中添加如下配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F; &#123;</span><br><span class="line">    expires 1h;</span><br><span class="line"></span><br><span class="line">    proxy_redirect                      off;</span><br><span class="line">    proxy_set_header Host               $host;</span><br><span class="line">    proxy_set_header X-Real-IP          $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;</span><br><span class="line">    proxy_set_header X-Forwarded-Proto  $scheme;</span><br><span class="line">    proxy_read_timeout          1m;</span><br><span class="line">    proxy_connect_timeout       1m;</span><br><span class="line">    proxy_pass                          http:&#x2F;&#x2F;127.0.0.1:3000; # nuxt项目运行的地址</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-测试配置是否正确"><a href="#5-测试配置是否正确" class="headerlink" title="5. 测试配置是否正确"></a>5. 测试配置是否正确</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-重启nginx"><a href="#6-重启nginx" class="headerlink" title="6. 重启nginx"></a>6. 重启nginx</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
-
-<p>重启之后就可以通过服务器IP访问到nuxt项目网页了。例如：<a href="http://56.121.30.89，默认是80端口。如果修改了端口号，需要加上端口号访问。例如：http://56.121.30.89:81。">http://56.121.30.89，默认是80端口。如果修改了端口号，需要加上端口号访问。例如：http://56.121.30.89:81。</a><br><strong>注意：此时nuxt项目要在运行中才能访问，如果上面打包部署完运行项目把nuxt项目停止运行了，要重新运行起来。</strong></p>
-<p>到现在虽然我们可以访问nuxt开发的项目了，但是如果我们关掉执行运行nuxt项目命令的窗口，那么nuxt项目就会停止运行，这样我们就没法访问了。所以下面我们要安装一个守护进程管理器——pm2（PM2 是一个守护进程管理器，它将帮助您管理和保持您的应用程序在线）。</p>
-<h2 id="使用PM2守护程序"><a href="#使用PM2守护程序" class="headerlink" title="使用PM2守护程序"></a>使用PM2守护程序</h2><h3 id="安装pm2"><a href="#安装pm2" class="headerlink" title="安装pm2"></a>安装pm2</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global add pm2</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用PM2守护nuxt项目程序"><a href="#使用PM2守护nuxt项目程序" class="headerlink" title="使用PM2守护nuxt项目程序"></a>使用PM2守护nuxt项目程序</h3><p>进入nuxt项目部署目录，执行以下命令（project-name请替换成具体项目名称，意为指定进程名称）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 start npm --name <span class="string">'project-name'</span> -- run start</span><br></pre></td></tr></table></figure>
-
-<p>查看进程，输入一下命令输出如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 list</span><br></pre></td></tr></table></figure>
-
-<p>┌─────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐<br>│ id  │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │<br>├─────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤<br>│ 0   │ project-name       │ default     │ N/A     │ fork    │ 6007     │ 54m    │ 0    │ online    │ 0%       │ 29.9mb   │ root     │ disabled │<br>└─────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘</p>
-<p>此时我们可以看到，我们的项目已经在运行了。更过pm2命令，请参考<a href="https://pm2.keymetrics.io/docs/usage/quick-start/" target="_blank" rel="noopener">pm2文档</a>。</p>
-<p>这样我们就完成了整个项目部署上线。</p>
-<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><ul>
-<li><a href="https://www.cnblogs.com/zezhou/p/14432439.html" target="_blank" rel="noopener">nuxt项目上线</a></li>
-<li><a href="https://yarn.bootcss.com/docs/install/#centos-stable" target="_blank" rel="noopener">yarn安装</a></li>
-<li><a href="https://www.nuxtjs.cn/faq/nginx-proxy" target="_blank" rel="noopener">nuxt中文官网常见问题——nginx 代理</a></li>
-<li><a href="https://pm2.keymetrics.io/docs/usage/quick-start/" target="_blank" rel="noopener">pm2文档</a></li>
-<li><a href="https://segmentfault.com/a/1190000012774650" target="_blank" rel="noopener">next.js、nuxt.js等服务端渲染框架构建的项目部署到服务器，并用PM2守护程序</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/29/%E9%97%AD%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/29/%E9%97%AD%E5%8C%85/" class="post-title-link" itemprop="url">闭包</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-29 13:42:18" itemprop="dateCreated datePublished" datetime="2021-07-29T13:42:18+08:00">2021-07-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-13 18:10:18" itemprop="dateModified" datetime="2021-10-13T18:10:18+08:00">2021-10-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h2><p>一个函数和对其周围状态（lexical environment，词法环境）的引用组合在一起，就是闭包（closure）。闭包让我们可以在一个内层函数中访问到其外层函数的作用域。</p>
-<p>例如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name = <span class="string">"Mozilla"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">displayName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> displayName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myFunc = makeFunc();</span><br><span class="line">myFunc();</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="闭包的作用"><a href="#闭包的作用" class="headerlink" title="闭包的作用"></a>闭包的作用</h2><ul>
-<li>用闭包模拟私有方法</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> makeCounter = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> privateCounter = <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">changeBy</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">    privateCounter += val;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    increment: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      changeBy(<span class="number">1</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    decrement: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      changeBy(<span class="number">-1</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    value: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> privateCounter;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Counter1 = makeCounter();</span><br><span class="line"><span class="keyword">var</span> Counter2 = makeCounter();</span><br><span class="line"><span class="built_in">console</span>.log(Counter1.value()); <span class="comment">/* logs 0 */</span></span><br><span class="line">Counter1.increment();</span><br><span class="line">Counter1.increment();</span><br><span class="line"><span class="built_in">console</span>.log(Counter1.value()); <span class="comment">/* logs 2 */</span></span><br><span class="line">Counter1.decrement();</span><br><span class="line"><span class="built_in">console</span>.log(Counter1.value()); <span class="comment">/* logs 1 */</span></span><br><span class="line"><span class="built_in">console</span>.log(Counter2.value()); <span class="comment">/* logs 0 */</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="使用闭包的时应注意的问题"><a href="#使用闭包的时应注意的问题" class="headerlink" title="使用闭包的时应注意的问题"></a>使用闭包的时应注意的问题</h2><ol>
-<li>在循环中创建闭包的常见错误–闭包只能取得它的包含函数（外层函数）的中变量的最后一个值</li>
-</ol>
-<p>例如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createFunctions</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">        result[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个函数返回一个函数数组，由于数组中的函数中都保存着变量i，在createFunctions()函数执行完毕时，变量i的值是10，所以每个函数都返回10。</p>
-<p><strong>如果想让每个函数都返回其对应的索引值，可使用立即执行匿名函数(也是闭包)达到目的：</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createFunctions</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">        result[i] = (<span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> n;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>如果不想使用过多的闭包，也可以用ES2015引入的let关键词：</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createFunctions</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">        result[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个例子使用let而不是var，因此每个闭包都绑定了块作用域的变量，这样就不再需要额外的闭包。</p>
-<ol start="2">
-<li>闭包中的this</li>
-</ol>
-<p>this对象是指函数的执行环境对象，也就是函数的调用者。闭包函数中this同样指向它的调用者，但是我们常常不经意间就编写了一个闭包函数，这时候如果我们在闭包函数中使用了this，就容易和闭包的外层函数的this混淆。</p>
-<p>例如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'the window'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name,                                  </span><br><span class="line">    <span class="keyword">this</span>.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> Foo(<span class="string">'my name'</span>);</span><br><span class="line">alert(obj.getName()()); <span class="comment">//'the window'(非严格模式下)</span></span><br></pre></td></tr></table></figure>
-
-<p>上述例子中的this指向window，但是我们很容易认为this指向obj，这很容易给我们的程序带来问题。为了避免这种问题。我们可以这样：</p>
-<p>留在北京：两年后，在北京买个两居室，可乐在北京上幼儿园，房子装修。再过几年在天津买个房子，可乐可以在北京或者天津上小学，如果在天津上，需要有人在天津照顾，应该会选择在北京上直到初中转学去天津参加中考和上高中。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'the window'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name,</span><br><span class="line">    <span class="keyword">this</span>.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> self.name;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> Foo(<span class="string">'my name'</span>);</span><br><span class="line">alert(obj.getName()()); <span class="comment">//'my name'</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/29/%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/29/%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/" class="post-title-link" itemprop="url">原型和原型链</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-29 11:44:50" itemprop="dateCreated datePublished" datetime="2021-07-29T11:44:50+08:00">2021-07-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-17 16:38:13" itemprop="dateModified" datetime="2021-12-17T16:38:13+08:00">2021-12-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="构造函数、原型和实例的关系"><a href="#构造函数、原型和实例的关系" class="headerlink" title="构造函数、原型和实例的关系"></a>构造函数、原型和实例的关系</h2><p>每个构造函数都有一个原型对象，而构造函数的每个实例都有一个原型属性<strong>proto</strong>指向它的构造函数的原型对象，构造函数的所有实例就能共享原型对象上的属性和方法。此外，原型对象都包含一个指向它的构造函数的指针constructor。</p>
-<p><img src="https://image-static.segmentfault.com/207/279/2072790741-58e5a70788918_fix732" alt="原型"></p>
-<h2 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h2><p>在JavaScript中，每个实例对象都有一个叫做<strong>proto</strong>的原型属性，原型属性指向它的构造函数的原型对象。原型对象的作用是为实例对象添加共享的属性和方法。该原型对象也有一个原型属性指向它自己的原型对象，就这样一层一层的向上，直到一个对象的原型为null，这就构成了原型链。原型链的作用就是实现继承。</p>
-<p><img src="https://image-static.segmentfault.com/414/998/4149982343-58e5a767abec1_fix732" alt="原型链"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/29/%E5%AE%B6%E5%BA%AD%E4%BF%9D%E9%99%A9%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Will Wan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Will's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/29/%E5%AE%B6%E5%BA%AD%E4%BF%9D%E9%99%A9%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">家庭保险配置</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-07-29 11:11:05 / 修改时间：11:12:37" itemprop="dateCreated datePublished" datetime="2021-07-29T11:11:05+08:00">2021-07-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%9D%E9%99%A9%E7%90%86%E8%B4%A2/" itemprop="url" rel="index"><span itemprop="name">保险理财</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="家庭保险配置"><a href="#家庭保险配置" class="headerlink" title="家庭保险配置"></a>家庭保险配置</h1><h2 id="1-风险"><a href="#1-风险" class="headerlink" title="1. 风险"></a>1. 风险</h2><p>风险分为：意外风险、疾病风险、身故风险、财务风险。</p>
-<h2 id="2-风险转移手段"><a href="#2-风险转移手段" class="headerlink" title="2. 风险转移手段"></a>2. 风险转移手段</h2><ul>
-<li>转移意外风险可以用到意外险、寿险、重疾险和医疗险 ；</li>
-<li>转移疾病风险，可以用到重疾险、防癌险和医疗险；</li>
-<li>转移身故风险，可以用到寿险、意外险和带寿险功能的重疾险 ；</li>
-<li>转移财务风险，可以用到年金险和增额终身寿险。</li>
-</ul>
-<h2 id="3-不同年龄段，如何配置保险？"><a href="#3-不同年龄段，如何配置保险？" class="headerlink" title="3. 不同年龄段，如何配置保险？"></a>3. 不同年龄段，如何配置保险？</h2><p>一般把所有人群分为三个年龄段 ：</p>
-<ul>
-<li><p>未成年人（18岁以下为主）</p>
-</li>
-<li><p>家庭经济支柱（以 25-50 岁为主）</p>
-</li>
-<li><p>老年人（60 岁以上为主）</p>
-</li>
-</ul>
-<h3 id="a-未成年人"><a href="#a-未成年人" class="headerlink" title="a. 未成年人"></a>a. 未成年人</h3><p>该人群不承担家庭经济责任，主要考虑疾病或意外时如何减轻家庭负担。</p>
-<p><strong>建议必备险种：</strong>意外险、重疾险、医疗险。</p>
-<p><strong>可选险种</strong>：年金险</p>
-<ul>
-<li><strong>第一，意外险</strong>。意外是导致未成年人受伤甚至是死亡的第一因素，高杠杆、带意外门诊的意外险是未成年人的必备选择。建议未成年人配置意外险时可更多关注意外医疗部分的含金量，如是否限社保内、是否含境外责任、是否有免赔额，以及赔付比例是多少等。虽然监管机构对未成年身故保额有最高限额，但意外伤残保额无限额，如遇伤残，涉及费用高，因此即便未成年不承担家庭责任，伤残保额不能太低，根据自身情况，<strong>保额建议在 20 万 -50 万元。</strong></li>
-<li><strong>第二，重疾险。</strong>未成年人配置重疾险的费率低、保障时间长、核保容易，如不幸患重病，保险也能大大减轻家庭负担。其实，儿童重疾有花费高、治愈率高的特点，拿儿童最高发的重疾——白血病来说，花费少则三四十万元，如需干细胞移植则花费七八十万元也是比较常见的，<strong>保额建议在 50 万 -100 万元。</strong></li>
-<li><strong>第三，医疗险。</strong>医疗险起补充社保的作用，与重疾险搭配。幼儿时期住院几率很高，如常见的由于肺炎、轮状病毒等导致的住院，但重疾理赔标准不是轻易能达到，这时医疗险就起作用了。对于日常的小病住院和门诊，社保报销后，可以用商业医疗险解决。<strong>建议选择 0 免赔、不限社保、保额 50 万元以上的商业医疗险。</strong></li>
-<li><strong>第四，年金险。</strong>未成年人教育花费是一笔不小的开支，不少家长想未雨绸缪。如在保障类产品配齐还有闲余资金时，完全可以考虑配置一些年金险作为教育金。</li>
-</ul>
-<h3 id="b-家庭经济支柱"><a href="#b-家庭经济支柱" class="headerlink" title="b. 家庭经济支柱"></a>b. 家庭经济支柱</h3><p>该人群承担家庭主要经济责任，上有老、下有小，既需考虑重病或意外时转移风险，减轻家庭负担，又需考虑以下家庭责任开支。一是家庭3-5 年正常开支，二是家庭负债（如房贷、车贷、生意贷款等），三是父母赡养责任，四是子女抚养责任</p>
-<p><strong>必备险种 ：</strong>意外险、寿险、重疾险或防癌险、医疗险</p>
-<p><strong>可选险种</strong> ：年金险</p>
-<ul>
-<li><strong>第一，意外险</strong>。家庭经济支柱承担家庭主要责任，再加上意外险杠杆高（保费便宜、保额高），此类人群可重点考虑做高身故保额。<strong>身故保额建议 100 万元起，一线城市可适当加高保额。</strong></li>
-<li><strong>第二，寿险。</strong>中国死亡保障的缺口巨大，很多人不能接受身故才理赔的保险。今天，我们必须要强调的是，寿险是家庭经济支柱必备的险种。寿险又分为定期寿险和终身寿险。定期寿险杠杆高，适合家庭责任重，尤其是一二线城市房贷压力大、小孩老人抚养赡养责任重的群体。而预算充足的家庭可搭配带储蓄传承功能的终身寿险。<strong>保额根据家庭责任和资产负债情况而定，一线城市的保额建议 100 万元起。</strong></li>
-<li><strong>第三，重疾险（或防癌险）</strong>50 岁以内人群可根据身体条件、预算购买适合的重疾险（储蓄型或纯保障型），如身体不符合要求，也可考虑单纯的防癌险，毕竟癌症占据理赔比例的60%-80%。<strong>长期重疾险不存在续保问题，一旦买好，费率恒定。保额建议 50 万元起，一线城市根据预算可配置 100 万元以上的保额。</strong></li>
-<li><strong>第四，医疗险。</strong>与前面类似，其作为社保的补充，与重疾险搭配，非重大疾病住院使用医疗险理赔。举例说明，如胰腺炎，花费巨大，几十万元的花费很正常，却非重疾理赔范围，只能使用医疗险报销，因为社保有报销额度的限制，且不含自费药，<strong>因此商业医疗险是必要的。不过，由于存在通货膨胀、理赔率高、亏损等原因，医疗险无法做到保证续保。</strong></li>
-<li><strong>第五，年金险。</strong>利用年金险，可以有效转移老无所养及长寿的风险，适合当前有养老需求的家庭。</li>
-</ul>
-<h3 id="c-老年人"><a href="#c-老年人" class="headerlink" title="c. 老年人"></a>c. <strong>老年人</strong></h3><p>退休后的人群一般不承担家庭责任，重点考虑疾病或意外时减轻家庭负担</p>
-<p><strong>建议必备险种 ：</strong>意外险、防癌险、医疗险</p>
-<p><strong>可选险种</strong> ：年金险</p>
-<ul>
-<li><strong>第一，意外险。</strong>老年人发生意外的几率高，如摔伤、骨折等，意外险配置时跟未成年人类似，重点考虑意外伤残和意外医疗部分的含金量，如是否不限社保、免赔额多少、赔付比例等。由于不是家庭经济支柱，保额不用太高，建议在 20 万 -50 万元。</li>
-<li><strong>第二，防癌险。</strong>50 岁以后重疾险的保费与保障容易倒挂，再加上身体问题增多，核保难以通过，这时可重点考虑杠杆更高的防癌险，且“三高”人群也能购买。值得注意的是，由于年龄和身体条件的限制，大多数保险公司推出的老年防癌险产品的最高免体检保额为 10 万 -20万元。</li>
-<li><strong>第三，医疗险。</strong>与前面类似，医疗险可补充社保，与防癌险搭配时效果更佳。非重大疾病住院时用医疗险理赔，罹患癌症时有防癌险保障。医疗险具有保费低、保额高的特点，如身体条件较好，强烈建议有资格购买的老人上一份医疗险，部分医疗险在 50-55 岁后投保需要体检，而大部分医疗险的最高首次购买年龄为 60 岁。</li>
-</ul>
-<h2 id="4-不同家庭收入，如何配置保险？"><a href="#4-不同家庭收入，如何配置保险？" class="headerlink" title="4. 不同家庭收入，如何配置保险？"></a>4. 不同家庭收入，如何配置保险？</h2><p>参考《中国家庭金融财富报告》的分类，我们也将中国家庭按收入和资产大致分为五类。</p>
-<ul>
-<li><strong>第一类，工薪家庭</strong>。参考家庭年收入 20 万元以内，或净资产不超过 80 万元。</li>
-<li><strong>第二类，小康家庭</strong>。参考家庭年收入 20 万 -40万元，或净资产 80 万 -200 万元。</li>
-<li><strong>第三类，中产家庭。</strong>参考家庭年收入 40 万 -80万元，或净资产 200 万 -500 万元。</li>
-<li><strong>第四类，富裕家庭</strong>。参考家庭年收入 80 万 -200万元，或净资产 500 万 -1000 万元。</li>
-<li><strong>第五类，高净值家庭</strong>。参考家庭年收入 200 万元以上，或净资产 1000 万元以上。</li>
-</ul>
-<p><strong>工薪家庭</strong>由于工薪家庭生活压力不低，如一旦遭遇重大疾病和意外，经济压力剧增，可能成为压垮家庭的最后一根稻草，因此保险配置应该以保障类为主。建议险种主要配置重疾险、定期寿险、意外险和医疗险。</p>
-<p><strong>小康家庭</strong>小康家庭基本生活无忧，但遭遇重大疾病或意外，也会给家庭带来沉重的经济压力，影响原有的生活质量，因此保险配置应该以保障类为主，有闲余资金可为教育或养老等大额花费提前做长期资金安排。建议险种主要配置重疾险、定期寿险、意外险、普通或中端医疗险，以及年金险。</p>
-<p><strong>中产家庭</strong>中产家庭生活、衣食无忧，有一定的资产积累，重点考虑重大疾病或意外发生时有足够的现金流，同时不会影响现有的生活质量，可提前做好教育及养老等必需的大额资金安排，因此保险配置以保障类和储蓄类相结合。建议险种主要配置重疾险、寿险、意外险、中端医疗险和年金险。</p>
-<p><strong>富裕家庭</strong>富裕家庭收入高，净资产较高，抗风险能力较强，一旦有疾病或意外，应注意有足够现金流和不影响现有生活质量。另外，这一群体对医疗环境和医疗服务有较高要求，也关注财务风险的转移，如大额资金提前安排、财富传承及资产配置等。保险配置也应该是保障类和储蓄类相结合。建议险种主要配置重疾险、寿险、意外险、中高端医疗、年金险或增额终身寿险。</p>
-<p><strong>高净值家庭</strong>高净值家庭收入很高，净资产丰厚，抗风险能力很强，一旦有疾病或意外，期望在有足够现金流的情况下，能实现在全球寻求优质的医疗解决方案。另外，财务风险也是高净值家庭应该重点关注的部分，如大额资金与财产传承安排、债务隔离、全球资产配置等。因此，除了配齐高额保障产品外，重点关注能转移财务风险的保险工具。建议险种主要配置高端医疗险、寿险、意外险、年金险或增额终身寿险，以及保险金信托。</p>
-<p><a href="https://zhuanlan.zhihu.com/p/140275194" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/140275194</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1495,7 +1471,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1508,7 +1484,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
