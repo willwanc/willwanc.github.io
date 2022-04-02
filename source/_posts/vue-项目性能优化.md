@@ -363,7 +363,7 @@ module.exports = {
             plugins: [
                 new CompressionPlugin({
                     algorithm: 'gzip',// 压缩算法
-                    test: /\.js$|\.html$|.\css/, // 匹配文件类型
+                    test: /\.js$|\.html$|\.css$/, // 匹配文件类型
                     threshold: 10240, // 对超过10k的数据压缩
                     deleteOriginalAssets: false // 是否删除源文件
                 })
@@ -426,7 +426,7 @@ const vueConfig = {
 
 在nginx的配置文件种添加如下配置：
 
-```conf
+```
 http {
     # 开启|关闭（off） gzip
     gzip on; 
